@@ -1,0 +1,130 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:Converter="clr-namespace:SalesMMobileAssitant.ViewModel"
+                    xmlns:local="clr-namespace:SalesMMobileAssitant.Style">
+
+    <Converter:IndexConverter x:Key="IndexConverter" />
+
+
+    <!--Packicon in listview.gridview -->
+    <Style TargetType="materialDesign:PackIcon" x:Key="PackIconAndCricle">
+        <Setter Property="Foreground" Value="Red"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Cancel">
+                <Setter Property="Foreground" Value="Red"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Delivered">
+                <Setter Property="Foreground" Value="Blue"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Pending">
+                <Setter Property="Foreground" Value="Red"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="1">
+                <Setter Property="Foreground" Value="Red"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Verifying">
+                <Setter Property="Foreground" Value="Yellow"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="2">
+                <Setter Property="Foreground" Value="Yellow"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Completed">
+                <Setter Property="Foreground" Value="Green"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="3">
+                <Setter Property="Foreground" Value="Green"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+  
+    
+    
+    <!-- Border Cricle style Status -->
+    <Style TargetType="Border" x:Key="BorderTextBlockCricleColorOnStatus">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Success">
+                <Setter Property="Background" Value="#E8F9F8"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Delivered">
+                <Setter Property="Background" Value="#E8F9F8"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Done">
+                <Setter Property="Background" Value="#FFEBF1"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Pending">
+                <Setter Property="Background" Value="#EBEDFF"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Canceled">
+                <Setter Property="Background" Value="#FFF8E8"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- TextBlock color Status-->
+
+    <Style TargetType="TextBlock" x:Key="TextBlockForegroundOnStatus">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Success">
+                <Setter Property="Foreground" Value="#1DC9B7"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Delivered">
+                <Setter Property="Foreground" Value="#1DC9B7"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Done">
+                <Setter Property="Foreground" Value="#FD4189"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Pending">
+                <Setter Property="Foreground" Value="#374AFB"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Canceled">
+                <Setter Property="Foreground" Value="#FFB822"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    
+    <!-- mẽo sài -->
+
+    <Style TargetType="StackPanel" x:Key="PanelStyleElementChildTextBlocklol">
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Tag,ElementName=TotalRevenueName}" Value="Bigger">
+                        <Setter Property="Foreground" Value="LightGreen"/>
+                        <Setter Property="Uid" Value="ArrowUp"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Tag,ElementName=TotalRevenueName}" Value="Small">
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Setter Property="Uid" Value="ArrowDown"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+    </Style>
+    
+    <!-- sài tốt -->
+
+    <Style TargetType="StackPanel" x:Key="PanelStyleElementChildTextBlock">
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Style.Triggers>
+                    <Trigger Property="Tag" Value="Bigger">
+                        <Setter Property="Foreground" Value="LightGreen"/>
+                        <Setter Property="Uid" Value="ArrowUp"/>
+                    </Trigger>
+                    <Trigger Property="Tag" Value="Small">
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Setter Property="Uid" Value="ArrowDown"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    
+   
+
+
+</ResourceDictionary>

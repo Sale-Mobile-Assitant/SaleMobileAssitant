@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="SalesMMobileAssitant.UserControls.UserControlSettting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SalesMMobileAssitant.UserControls"
+             mc:Ignorable="d" 
+             xmlns:domain="clr-namespace:SalesMMobileAssitant.Helper"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,0.2,1">
+            <Rectangle Margin="10,10,1.4,10" Height="auto" Fill="White">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <StackPanel Orientation="Vertical" Margin="15">
+                <TextBlock Text="Retrieve Date" FontSize="18" Padding="10" FontWeight="DemiBold" Foreground="DarkBlue" HorizontalAlignment="Center"/>
+                <TextBox x:Name="lol" Text="VLXX" Margin="10 0" FontSize="14" materialDesign:HintAssist.Hint="Code Connect" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                <Button Command="{Binding RetrieveCommand}" CommandParameter="{Binding Text,ElementName=lol}" Margin="10" Content="Retrieve Database Epicor" Width="200" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
+            </StackPanel>
+
+
+        </Grid>
+    </Grid>
+   
+    
+</UserControl>
