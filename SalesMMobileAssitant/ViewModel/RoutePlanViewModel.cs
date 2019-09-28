@@ -68,6 +68,27 @@ namespace SalesMMobileAssitant.ViewModel
             RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
             RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
 
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
+
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
+
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
+            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
+
 
             NewRoutePlancommand = new RelayCommand<object>((p) => {
                 return true;

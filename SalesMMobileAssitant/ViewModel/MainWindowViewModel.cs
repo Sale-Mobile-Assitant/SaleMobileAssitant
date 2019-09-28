@@ -39,6 +39,7 @@ namespace SalesMMobileAssitant.ViewModel
             }
         }
 
+       
 
         private object _CurrentViewModel;
         public object CurrentViewModel
@@ -60,15 +61,20 @@ namespace SalesMMobileAssitant.ViewModel
         public MainWindowViewModel()
         {
             CurrentViewModel = new DashBoardViewModel();
+
             SelectedItem = -1;
             SelectionChangedCommand = new RelayCommand<ListView>((p)=> { return true; },(p) => {
                 int index = SelectedItem;
+                SelectedItemDB = -1;
+                
                 OnNavigate(index);
             });
-
+            
             SelectionChangedChildrenCommand = new RelayCommand<ListView>((p) => { return true; }, (p) =>
             {
                 int index = SelectedItemDB;
+                SelectedItem = -1;
+               
                 OnNavigateChildren(index);
             });
 

@@ -140,6 +140,9 @@
     <Compile Include="Model\RoutePlanView.cs" />
     <Compile Include="Model\SalesOrderView.cs" />
     <Compile Include="Model\Site.cs" />
+    <Compile Include="ResourceXAML\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UserControlAnalysis.xaml.cs">
       <DependentUpon>UserControlAnalysis.xaml</DependentUpon>
     </Compile>
@@ -208,6 +211,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ResourceXAML\MainResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceXAML\ScrollViewCustom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceXAML\Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
