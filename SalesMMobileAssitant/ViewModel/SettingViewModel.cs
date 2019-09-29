@@ -42,6 +42,8 @@ namespace SalesMMobileAssitant.ViewModel
             //_ = UpdateDataEmployessType(); // done
             //_ = UpdateDataEmployess(); // done
             //_ = UpdateDataCustomer(); // done
+
+
             //_ = UpdateDataProductInSite(); // done
             //_ = UpdateDataOrders();
             //_ = UpdateDataOrderDetail();
