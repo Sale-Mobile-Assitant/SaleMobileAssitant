@@ -25,7 +25,9 @@ namespace SalesMMobileAssitant.UserControls
         public UserControlRoutePlan()
         {
             InitializeComponent();
+
+            //lsvMenuItem.HasItems = false;
         }
     }
-  
+   
 }

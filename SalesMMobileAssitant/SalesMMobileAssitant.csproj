@@ -113,6 +113,7 @@
     <Compile Include="EndPoint\SettingEndPoint.cs" />
     <Compile Include="EndPoint\SiteEndPoint.cs" />
     <Compile Include="Helper\APIHelper.cs" />
+    <Compile Include="Helper\BoolToVisibilityConverter.cs" />
     <Compile Include="Helper\GeneralMethods.cs" />
     <Compile Include="Helper\ItemMenu.cs" />
     <Compile Include="Helper\NotEmptyValidationRule.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Model\EpicorModel\EpicorProductGroup.cs" />
     <Compile Include="Model\EpicorModel\EpicorProductInSite.cs" />
     <Compile Include="Model\EpicorModel\EpicorSite.cs" />
+    <Compile Include="Model\ItemPage.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Model\OrderDetail.cs" />
     <Compile Include="Model\Product.cs" />

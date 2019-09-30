@@ -125,7 +125,7 @@
 
     
    
-<!--stdsdasda-->
+    <!--stdsdasda-->
     <SolidColorBrush x:Key="Item.MouseOver.Background" Color="AliceBlue"/>
     <SolidColorBrush x:Key="Item.MouseOver.Border" Color="AliceBlue"/>
     <SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#3DDADADA"/>
@@ -180,7 +180,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- ScrollView -->
 
     <!--<SolidColorBrush x:Key="StandardBorderBrush" Color="#888" />

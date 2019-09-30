@@ -5,9 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SalesMMobileAssitant.UserControls"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:helpers="clr-namespace:SalesMMobileAssitant.Helper"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-  
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=cbxPageSize}" >
+            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=lsvMenuItem}" >
+            <i:InvokeCommandAction Command="{Binding SelectionChangedPageNumberCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="converter"/>
+    </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
             <Grid>
@@ -47,87 +59,110 @@
                         <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
                     </Rectangle.Effect>
                 </Rectangle>
+
+
                 <StackPanel Margin="10 0">
                     <TextBlock Text="Route Plan" Margin="10 0" Padding="10" FontSize="16" FontWeight="DemiBold"/>
-                    <ScrollViewer>
-                        <ListView x:Name="ListViewRoutePlan" ItemsSource="{Binding RoutePlanResources}"  Padding="10 30" Height="400" Margin="10,0,10.2,0" FontSize="14">
-                            <ListView.Resources>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                </Style>
-                            </ListView.Resources>
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},Converter={StaticResource IndexConverter}}" Header="STT" Width="60" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding EmployeesName}" Header="Emloyees Name" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding CustomerName}" Header="Customer Name" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding DataPlan}" Header="Date Plan" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Address}" Header="Address" />
-                                    <GridViewColumn Header="Plan Status">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border CornerRadius="5" Style="{StaticResource BorderTextBlockCricleColorOnStatus}">
-                                                    <TextBlock x:Name="TextBlockStatus" Text="{Binding PlanStatus}"  Padding="10 3 10 3" FontWeight="Medium" Style="{StaticResource TextBlockForegroundOnStatus}"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Actions">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <materialDesign:PopupBox  PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" VerticalAlignment="Center" Margin="15 0 0 0" HorizontalAlignment="Center">
-                                                    <materialDesign:PopupBox.ToggleContent>
-                                                        <materialDesign:PackIcon Kind="DotsHorizontal"/>
-                                                    </materialDesign:PopupBox.ToggleContent>
-                                                    <StackPanel Width="100">
-                                                        <Button Command="{Binding ElementName=ListViewRoutePlan,Path=DataContext.EditCommand}" CommandParameter="{Binding}" Content="Edit" Foreground="Blue"/>
-                                                        <Button Command="{Binding ElementName=ListViewRoutePlan,Path=DataContext.EditCommand}" CommandParameter="{Binding}" Content="Delete" Foreground="Red"/>
-                                                    </StackPanel>
-                                                </materialDesign:PopupBox>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                    <ListView x:Name="ListViewRoutePlan" ItemsSource="{Binding RoutePlanResources}"  Padding="10 30" Height="390" Margin="10,0,10.2,0" FontSize="14">
+                        <ListView.Resources>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.Resources>
 
-                    </ScrollViewer>
-                    <ListView  Margin="0 15" Foreground="Red" ItemContainerStyle="{StaticResource ListViewContainerStyle}">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListViewItem Width="60">
-                            <Button Background="#FFC1D2F4" BorderBrush="{x:Null}" Content="{materialDesign:PackIcon ChevronDoubleLeft}"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <Button Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="Blue" Content="{materialDesign:PackIcon ChevronLeft}"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Blue" Content="1"  Width="40" />
-                        </ListViewItem>
-                        <ListViewItem>
-                            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Blue" Content="2"  Width="40"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Blue" Content="3"  Width="40"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Blue" Content="4"  Width="40"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Blue" Content="5"  Width="40"/>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <Button Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="Blue" Content="{materialDesign:PackIcon ChevronRight}" />
-                        </ListViewItem>
-                        <ListViewItem>
-                            <Button Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="Blue" Content="{materialDesign:PackIcon ChevronDoubleRight}" />
-                        </ListViewItem>
+                        <ListView.View>
+
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},Converter={StaticResource IndexConverter}}" Header="STT" Width="60" />
+                                <GridViewColumn DisplayMemberBinding="{Binding EmployeesName}" Header="Emloyees Name" />
+                                <GridViewColumn DisplayMemberBinding="{Binding CustomerName}" Header="Customer Name" />
+                                <GridViewColumn DisplayMemberBinding="{Binding DataPlan}" Header="Date Plan" />
+                                <GridViewColumn DisplayMemberBinding="{Binding Address}" Header="Address" />
+                                <GridViewColumn Header="Plan Status">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="5" Style="{StaticResource BorderTextBlockCricleColorOnStatus}">
+                                                <TextBlock x:Name="TextBlockStatus" Text="{Binding PlanStatus}"  Padding="10 3 10 3" FontWeight="Medium" Style="{StaticResource TextBlockForegroundOnStatus}"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Actions">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:PopupBox  PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" VerticalAlignment="Center" Margin="15 0 0 0" HorizontalAlignment="Center">
+                                                <materialDesign:PopupBox.ToggleContent>
+                                                    <materialDesign:PackIcon Kind="DotsHorizontal"/>
+                                                </materialDesign:PopupBox.ToggleContent>
+                                                <StackPanel Width="100">
+                                                    <Button Command="{Binding ElementName=ListViewRoutePlan,Path=DataContext.EditCommand}" CommandParameter="{Binding}" Content="Edit" Foreground="Blue"/>
+                                                    <Button Command="{Binding ElementName=ListViewRoutePlan,Path=DataContext.EditCommand}" CommandParameter="{Binding}" Content="Delete" Foreground="Red"/>
+                                                </StackPanel>
+                                            </materialDesign:PopupBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+
+                        </ListView.View>
 
                     </ListView>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="20">
+                            <Button Command="{Binding ChevronDoubleLeftCommand}" Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleLeft}" FontWeight="UltraBold"/>
+                            <Button Command="{Binding ChevronLeftCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronLeft}" FontWeight="UltraBold"/>
+                            <ListView x:Name="lsvMenuItem" ItemsSource="{Binding ItemPageNumber}" SelectedIndex="{Binding SelectedPageNumber}" SelectionMode="Single">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="DataContext" Value="{Binding}" />
+                                        <Setter Property="Height" Value="30" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewItem">
+                                                    <Border Background="Transparent" x:Name="MainBorder">
+                                                        <Button x:Name="button" HorizontalAlignment="Left" Visibility="{Binding IsActive, Converter={StaticResource converter}}" Content="{Binding Name}" Background="Transparent" Foreground="Blue" IsHitTestVisible="False" Width="50" BorderThickness="0"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter TargetName="MainBorder" Property="Background" Value="#5d78ff"/>
+                                                            <Setter TargetName="button"  Property="TextElement.FontWeight" Value="SemiBold"/>
+                                                            <Setter TargetName="button"  Property="TextElement.Foreground" Value="White"/>
+                                                            <Setter TargetName="MainBorder" Property="CornerRadius" Value="3"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="button"  Property="Background" Value="#5d78ff"/>
+                                                            <Setter Property="BorderBrush" TargetName="button" Value="#FF33962B"/>
+                                                            <Setter TargetName="button"  Property="Foreground" Value="White"/>
+                                                            <Setter TargetName="button"  Property="Cursor" Value="Hand"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemsPanel >
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                            </ListView>
+                            <Button Command="{Binding ChevronRightCommand}" Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronRight}" FontWeight="UltraBold"/>
+                            <Button Command="{Binding ChevronDoubleRightCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleRight}" FontWeight="UltraBold"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="0 0 10 0" Orientation="Horizontal" HorizontalAlignment="Right"  >
+                            <ComboBox x:Name="cbxPageSize" ItemsSource="{Binding PageSizes}"  SelectedItem="{Binding SelectedPageSize}" Padding="7" Background="#FF4572A0" Foreground="White" Margin="0 15" HorizontalAlignment="Left" Width="50"/>
+                            <TextBlock Text="{Binding Showing}"/>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
+
+
             </Grid>
             <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" CommandTarget="{Binding ElementName=dialog}" Style="{StaticResource MaterialDesignRaisedDarkButton}" VerticalAlignment="Center" Content="Add Route" HorizontalAlignment="Right" Width="100" ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Margin="15,20"/>
         </StackPanel>

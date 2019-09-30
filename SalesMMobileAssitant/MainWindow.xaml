@@ -86,7 +86,6 @@
             <Grid Grid.Row="0" Background="GhostWhite">
                 <Image Source="Assets/logo.png"/>
             </Grid>
-            <ScrollViewer HorizontalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
                 <StackPanel Grid.Row="1">
                     <StackPanel>
                         <Grid>
@@ -155,7 +154,6 @@
                         </ListViewItem>
                     </ListView>
                 </StackPanel>
-            </ScrollViewer>
         </Grid>
 
     </Grid>
