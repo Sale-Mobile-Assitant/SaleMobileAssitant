@@ -10,7 +10,7 @@ namespace SalesMMobileAssitant.Model
     {
         public string CompID { get; set; }
         public string EmplID { get; set; }
-        public int CustID { get; set; }
+        public string CustID { get; set; }
         public string CustName { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }

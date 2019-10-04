@@ -17,6 +17,8 @@ namespace SalesMMobileAssitant.ViewModel
             ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
             int index = listView.ItemContainerGenerator.IndexFromContainer(item);
             int indexCopy = index + 1;
+
+
             return indexCopy.ToString();
         }
 

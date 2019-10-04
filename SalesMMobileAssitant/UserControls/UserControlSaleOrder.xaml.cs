@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,13 @@ namespace SalesMMobileAssitant.UserControls
     /// </summary>
     public partial class UserControlSaleOrder : UserControl
     {
+       
         public UserControlSaleOrder()
         {
             InitializeComponent();
+
         }
+       
+
     }
 }

@@ -4,11 +4,34 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SalesMMobileAssitant.UserControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             
+             xmlns:AttachedBehavior="clr-namespace:SalesMMobileAssitant.Helper"
              mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=cbxPageSize}" >
+            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=lsvMenuItem}" >
+            <i:InvokeCommandAction Command="{Binding SelectionChangedPageNumberCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=cbxMonth}" >
+            <i:InvokeCommandAction Command="{Binding SelectionChangedMonthCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=cbxYear}" >
+            <i:InvokeCommandAction Command="{Binding SelectionChangedYearCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <ResourceDictionary Source="/ResourceXAML/ScrollViewCustom.xaml"/>
+    </UserControl.Resources>
     <Grid>
-        <StackPanel Orientation="Vertical" Margin="0 20">
+       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Vertical">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10 0 20 0" HorizontalAlignment="Right">
                 <DatePicker Width="100" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="10 0" FontSize="14"/>
                 <TextBox materialDesign:HintAssist.Hint="Customer ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="200" VerticalAlignment="Center" Margin="10 0" FontSize="14"/>
@@ -16,60 +39,121 @@
                 <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" VerticalAlignment="Center" Content="Epicor SalesOrder" Width="150" Margin="10"/>
                 <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" VerticalAlignment="Center" Content="Update to Epicor" Width="100" Margin="10"/>
             </StackPanel>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <ListView x:Name="lol" ItemsSource="{Binding OrderSources}" FontSize="14">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding STT}" Header="STT" />
-                            <GridViewColumn DisplayMemberBinding="{Binding OrdeID}" Header="OrdeID" />
-                            <GridViewColumn DisplayMemberBinding="{Binding CustID}" Header="CustID" />
-                            <GridViewColumn DisplayMemberBinding="{Binding EmplID}" Header="EmplID" />
-                            <GridViewColumn DisplayMemberBinding="{Binding OrderDate}" Header="OrderDate" />
-                            <GridViewColumn DisplayMemberBinding="{Binding NeedByDate}" Header="NeedByDate" />
-                            <GridViewColumn DisplayMemberBinding="{Binding RequestDate}" Header="RequestDate" />
-                            <GridViewColumn DisplayMemberBinding="{Binding OrderStatus}" Header="OrderStatus" />
-                            <GridViewColumn DisplayMemberBinding="{Binding DocTotalCharges}" Header="DocTotalCharges" />
-                            <GridViewColumn DisplayMemberBinding="{Binding TrueDiscountPercent}" Header="TrueDiscountPercent" />
-                            <GridViewColumn DisplayMemberBinding="{Binding DocExtPriceDtl}" Header="DocExtPriceDtl" />
-                            <GridViewColumn DisplayMemberBinding="{Binding DocTotalTax}" Header="DocTotalTax" />
-                            <GridViewColumn DisplayMemberBinding="{Binding DocOrderAmt}" Header="DocOrderAmt" />
-                            <GridViewColumn DisplayMemberBinding="{Binding BringStatus}" Header="BringStatus" />
-                            <GridViewColumn Header="Plan Status">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border  CornerRadius="5" Style="{StaticResource BorderTextBlockCricleColorOnStatus}">
-                                            <TextBlock x:Name="TextBlockStatus" Text="{Binding PlanStatus}"  Padding="10 3 10 3" FontWeight="Medium" Style="{StaticResource TextBlockForegroundOnStatus}"/>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Details">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <materialDesign:PackIcon Kind="PrintPreview" Foreground="Red" Margin="10 0" Cursor="Hand"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Actions">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <materialDesign:PopupBox  PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" VerticalAlignment="Center" Margin="15 0 0 0" HorizontalAlignment="Center">
-                                            <materialDesign:PopupBox.ToggleContent>
-                                                <materialDesign:PackIcon Kind="DotsHorizontal"/>
-                                            </materialDesign:PopupBox.ToggleContent>
-                                            <StackPanel Width="100">
-                                                <Button Content="Edit" Foreground="Blue"/>
-                                                <Button Content="Delete" Foreground="Red"/>
-                                            </StackPanel>
-                                        </materialDesign:PopupBox>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </ScrollViewer>
         </StackPanel>
+        <Grid Grid.Row="1" Height="540" VerticalAlignment="Top" Margin="0 50 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="75"/>
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0" Grid.RowSpan="2" Margin="10" Height="auto" Fill="White">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <ListView Grid.Row="0" 
+                      Padding="10"
+                      ItemsSource="{Binding SalesOrdersResources}" 
+                      Margin="15 0" 
+                      Height="448"
+                      x:Name="ListViewOrder"  
+                      FontSize="14"
+                      ItemContainerStyle="{StaticResource MaterialDesignGridViewItem}"
+                      ScrollViewer.PanningRatio="0.5"
+                      ScrollViewer.PanningMode="VerticalOnly"
+                      AttachedBehavior:ScrollAnimationBehavior.IsEnabled="False"
+                      ScrollViewer.CanContentScroll="False">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},Converter={StaticResource IndexConverter}}" Header="STT" Width="60" />
+                        <GridViewColumn DisplayMemberBinding="{Binding MyOrderID}" Header="My OrdeID" Width="110"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding OrdeID}" Header="OrderID" Width="90"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding CustID}" Header="CustomerID" Width="130" />
+                        <GridViewColumn DisplayMemberBinding="{Binding EmplID}" Header="EmployeeID" Width="130" />
+                        <GridViewColumn DisplayMemberBinding="{Binding OrderDate,StringFormat=dd-MM-yyyy}" Header="Order Date" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding NeedByDate,StringFormat=dd-MM-yyyy}" Header="Need by Date" Width="150" />
+                        <GridViewColumn DisplayMemberBinding="{Binding RequestDate,StringFormat=dd-MM-yyyy}" Header="Request Date" Width="150"/>
+                        <GridViewColumn Header="Order Status" Width="130">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Circle" Height="15" VerticalAlignment="Center" Style="{StaticResource PackIconAndCricle}"/>
+                                        <TextBlock x:Name="TextBlockStatus" Text="{Binding Path=OrderStatus}" Margin="5 0 0 0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Action" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="lol" Content="Detail" Command="{Binding ElementName=ListViewOrder,Path=DataContext.ViewDetailCommand}" CommandParameter="{Binding}" Background="Blue" Margin="0,-5,0,0" HorizontalAlignment="Left"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
 
+
+            <Grid Grid.Row="1" VerticalAlignment="Top" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="20 0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding FirstCommand}" Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleLeft}" FontWeight="UltraBold"/>
+                    <Button Command="{Binding PreviousCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronLeft}" FontWeight="UltraBold"/>
+                        <ListView x:Name="lsvMenuItem" ItemsSource="{Binding ItemPageNumber}" SelectedIndex="{Binding SelectedPageNumber}" SelectionMode="Single">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="DataContext" Value="{Binding}" />
+                                    <Setter Property="Height" Value="30" />
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <Border Background="Transparent" x:Name="MainBorder">
+                                                    <Button x:Name="button" HorizontalAlignment="Left" Visibility="{Binding IsActive, Converter={StaticResource converter}}" Content="{Binding Name}" Background="Transparent" Foreground="Blue" IsHitTestVisible="False" Width="50" BorderThickness="0"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="MainBorder" Property="Background" Value="#5d78ff"/>
+                                                        <Setter TargetName="button"  Property="TextElement.FontWeight" Value="SemiBold"/>
+                                                        <Setter TargetName="button"  Property="TextElement.Foreground" Value="White"/>
+                                                        <Setter TargetName="MainBorder" Property="CornerRadius" Value="3"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="button"  Property="Background" Value="#5d78ff"/>
+                                                        <Setter Property="BorderBrush" TargetName="button" Value="#FF33962B"/>
+                                                        <Setter TargetName="button"  Property="Foreground" Value="White"/>
+                                                        <Setter TargetName="button"  Property="Cursor" Value="Hand"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemsPanel >
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
+
+                    <Button Margin="10 0" Command="{Binding NextCommand}" Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronRight}" FontWeight="UltraBold"/>
+                    <Button Command="{Binding LastCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleRight}" FontWeight="UltraBold"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="0,0,5,0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Height="83" >
+                    <ComboBox x:Name="cbxMonth" MaxDropDownHeight="130" ItemsSource="{Binding ListMonth}" SelectedIndex="0" DisplayMemberPath="TextMonth" SelectedValuePath="NumberMonth" materialDesign:HintAssist.Hint="Month" materialDesign:HintAssist.HintOpacity=".26"/>
+                    <!--<ComboBox  SelectedValue="{Binding SelectedMonth}" Style="{StaticResource MaterialDesignFloatingHintComboBox}"  Background="#FF4572A0" Foreground="White" Width="100" Height="30" Margin="10"/>-->
+                    <ComboBox x:Name="cbxYear" ItemsSource="{Binding ListYear}" SelectedValue="{Binding SelectedYear}" SelectedItem="{Binding SelectedPageSize}" Padding="10 7"  Foreground="White" Width="66" Height="30" Margin="10 0"/>
+                    <ComboBox x:Name="cbxPageSize" ItemsSource="{Binding PageSizes}" SelectedItem="{Binding SelectedPageSize}" Padding="10 7" Background="#FF4572A0" Foreground="White" Width="66" Height="30" Margin="10 0"/>
+                    <TextBlock Text="{Binding Showing}" Foreground="Silver" FontWeight="Medium" Padding="15" FontSize="16" Margin="0,20,0,20.2"/>
+                </StackPanel>
+            </Grid>
+
+
+
+        </Grid>
     </Grid>
 </UserControl>

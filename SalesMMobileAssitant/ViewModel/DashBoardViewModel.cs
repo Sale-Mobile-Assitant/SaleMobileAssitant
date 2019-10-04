@@ -94,7 +94,7 @@ namespace SalesMMobileAssitant.ViewModel
 
             ViewDetailCommand = new RelayCommand<Order>((p) => { return true; }, (OnRemoveSubject));
 
-
+           
 
         }
         async private Task HandleOrderReceived()

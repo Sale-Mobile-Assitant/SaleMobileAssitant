@@ -121,33 +121,7 @@ namespace SalesMMobileAssitant.ViewModel
         {
             RoutePlanResource = new ObservableCollection<RoutePlan>();
 
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-            RoutePlanResource.Add(new RoutePlan() { EmplID = "NG", CustID = "NV", DatePlan = DateTime.Now.Date, Prioritize = 3, PlanStatus = "New", Note = "Ghi cai lol gi" });
-
+        
         }
 
         private void AddYearOnCombobox()

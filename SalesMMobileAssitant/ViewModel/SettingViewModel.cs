@@ -231,7 +231,7 @@ namespace SalesMMobileAssitant.ViewModel
                 {
                     CompID = item.Company,
                     EmplID = item.SalesRepCode,
-                    CustID = item.CustNum,
+                    CustID = item.CustNum.ToString(),
                     CustName = item.Name,
                     Address1 = item.Address1,
                     Address2 = item.Address2,

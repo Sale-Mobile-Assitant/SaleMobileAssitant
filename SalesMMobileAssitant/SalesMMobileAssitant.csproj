@@ -67,6 +67,10 @@
       <HintPath>..\packages\PresentationFramework.4.6.0\lib\PresentationFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.6.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -110,13 +114,16 @@
     <Compile Include="EndPoint\ProductEndPoint.cs" />
     <Compile Include="EndPoint\ProductGroupEndPoint.cs" />
     <Compile Include="EndPoint\ProductInSiteEndPoint.cs" />
+    <Compile Include="EndPoint\RoutePlanEndPoint.cs" />
     <Compile Include="EndPoint\SettingEndPoint.cs" />
     <Compile Include="EndPoint\SiteEndPoint.cs" />
     <Compile Include="Helper\APIHelper.cs" />
     <Compile Include="Helper\BoolToVisibilityConverter.cs" />
+    <Compile Include="Helper\FindVisualChildHelper.cs" />
     <Compile Include="Helper\GeneralMethods.cs" />
     <Compile Include="Helper\ItemMenu.cs" />
     <Compile Include="Helper\NotEmptyValidationRule.cs" />
+    <Compile Include="Helper\ScrollAnimationBehavior.cs" />
     <Compile Include="Helper\ScrollViewFixer.cs" />
     <Compile Include="Helper\SubItem.cs" />
     <Compile Include="Model\Company.cs" />
@@ -134,6 +141,7 @@
     <Compile Include="Model\EpicorModel\EpicorProductInSite.cs" />
     <Compile Include="Model\EpicorModel\EpicorSite.cs" />
     <Compile Include="Model\ItemPage.cs" />
+    <Compile Include="Model\Month.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Model\OrderDetail.cs" />
     <Compile Include="Model\Product.cs" />
@@ -174,6 +182,7 @@
       <DependentUpon>UserControlSettting.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AnalysisViewModel.cs" />
+    <Compile Include="ViewModel\AnnotationValidationViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CustomersViewModel.cs" />
     <Compile Include="ViewModel\DashBoardViewModel.cs" />
@@ -183,8 +192,11 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MenbersViewModel.cs" />
     <Compile Include="ViewModel\NewRoutePlanViewModel.cs" />
+    <Compile Include="ViewModel\NotifyErrorInfoViewModel.cs" />
     <Compile Include="ViewModel\OrderDetailViewModel.cs" />
     <Compile Include="ViewModel\ProductsViewModel.cs" />
+    <Compile Include="ViewModel\RoutePlanDialogEditViewModel.cs" />
+    <Compile Include="ViewModel\RoutePlanDialogViewModel.cs" />
     <Compile Include="ViewModel\RoutePlanViewModel.cs" />
     <Compile Include="ViewModel\SaleOrderViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
@@ -218,6 +230,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResourceXAML\ScrollViewCustom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceXAML\ScrollViewCustom2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

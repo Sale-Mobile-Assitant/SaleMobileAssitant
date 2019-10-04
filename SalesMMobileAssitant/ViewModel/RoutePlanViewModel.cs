@@ -1,5 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using SalesMMobileAssitant.Controller;
+using SalesMMobileAssitant.EndPoint;
+using SalesMMobileAssitant.Helper;
 using SalesMMobileAssitant.Model;
 using System;
 using System.Collections.Generic;
@@ -18,254 +20,249 @@ namespace SalesMMobileAssitant.ViewModel
     {
         #region Poperties
 
-        private ObservableCollection<RoutePlanView> _RoutePlanResources;
-        public ObservableCollection<RoutePlanView> RoutePlanResources { get => _RoutePlanResources; set { _RoutePlanResources = value; OnPropertyChanged(); } }
+        private ObservableCollection<RoutePlan> _RoutePlanResources;
+        public ObservableCollection<RoutePlan> RoutePlanResources { get => _RoutePlanResources; set { _RoutePlanResources = value; OnPropertyChanged(); } }
 
-   
-
-        private string _EmployeesName;
-        public string EmployeesName { get => _EmployeesName; set { _EmployeesName = value; OnPropertyChanged(); } }
-
-        private string _CustomerName;
-        public string CustomerName { get => _CustomerName; set { _CustomerName = value; OnPropertyChanged(); } }
-
-        private string _DataPlan;
-        public string DataPlan { get => _DataPlan; set { _DataPlan = value; OnPropertyChanged(); } }
-
-        private string _Address;
-        public string Address { get => _Address; set { _Address = value; OnPropertyChanged(); } }
-
-        private string _PlanStatus;
-        public string PlanStatus { get => _PlanStatus; set { _PlanStatus = value; OnPropertyChanged(); } }
 
         #endregion
 
-        private string _SelectedItemPageSize;
-        public string SelectedItemPageSize { get => _SelectedItemPageSize; set { _SelectedItemPageSize = value; OnPropertyChanged(); } }
+        private const string DialogIdentifier = "RootDialogHost";
 
+      
         private string _SelectedPageNumber;
         public string SelectedPageNumber { get => _SelectedPageNumber; set { _SelectedPageNumber = value; OnPropertyChanged(); } }
 
 
-  
+        private string _Showing;
+        public string Showing { get => _Showing; set { _Showing = value; OnPropertyChanged(); } }
 
 
+        public IList<string> ListYear { get; set; }
         public IList<string> PageSizes { get; set; }
+
+        public IList<Month> ListMonth { get; set; }
+
+        
         public string SelectedPageSize { get; set; }
         
 
         private ObservableCollection<ItemPage> _ItemPageNumber;
         public ObservableCollection<ItemPage> ItemPageNumber { get => _ItemPageNumber; set { _ItemPageNumber = value; OnPropertyChanged(); } }
 
+        private string _SelectedMonth;
+        public string SelectedMonth { get => _SelectedMonth; set { _SelectedMonth = value; OnPropertyChanged(); } }
 
-        private bool _IsDialogOpen;
-        public bool IsDialogOpen { get => _IsDialogOpen; set { _IsDialogOpen = value; OnPropertyChanged(); } }
+     
 
-        private string _lol;
-        public string lol { get => _lol; set { _lol = value; OnPropertyChanged(); } }
+        private string _SelectedYear;
+        public string SelectedYear { get => _SelectedYear; set { _SelectedYear = value; OnPropertyChanged(); } }
 
-       
+        private int pageNumber;
+        private int numberRecord;
+        private int totalRecord;
+        private int totalPage;
+
+        //List<RoutePlan> routePlans;
+
+        private ObservableCollection<RoutePlan> _routePlans;
+        public ObservableCollection<RoutePlan> routePlans { get => _routePlans; set { _routePlans = value; OnPropertyChanged(); } }
+
+   
 
         public ICommand NewRoutePlancommand { get; set; }
         public ICommand EditCommand { get; set; }
-        public ICommand DeleteCommand { get; set; }
+
         public ICommand SelectionChangedCommand { get; set; }
 
         public ICommand SelectionChangedPageNumberCommand { get; set; }
 
-        public ICommand ChevronRightCommand { get; set; }
-        public ICommand ChevronLeftCommand { get; set; }
-        public ICommand ChevronDoubleRightCommand { get; set; }
-        public ICommand ChevronDoubleLeftCommand { get; set; }
+        public ICommand NextCommand { get; set; }
+        public ICommand PreviousCommand { get; set; }
+        public ICommand LastCommand { get; set; }
+        public ICommand FirstCommand { get; set; }
 
+        public ICommand ShowDialogCommand { get; set; }
+
+        public ICommand DeleteCommand { get; set; }
+
+
+        public ICommand SelectionChangedMonthCommand { get; set; }
+
+
+        public ICommand SelectionChangedYearCommand { get; set; }
         public RoutePlanViewModel()
         {
-            RoutePlanResources = new ObservableCollection<RoutePlanView>();
-
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 1", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Success" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 2", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Pending" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng  3", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 4", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Done" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn  Gia 5", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Canceled" });
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-            RoutePlanResources.Add(new RoutePlanView() { EmployeesName = "Nguyễn Trưởng Gia 6", CustomerName = "Nguyễn Trưởng Gia", DataPlan = DateTime.Now.ToString("dd/MM/yyyy"), Address = "Đồng Nai", PlanStatus = "Delivered" });
-
-
-
             PageSizes = GetAllPageSize();
+            ListMonth = AddMonth();
+            ListYear = AddYear();
+            SelectedMonth = DateTime.Now.Month.ToString();
+            SelectedYear = DateTime.Now.Year.ToString();
             SelectedPageSize = "10";
+            numberRecord = Convert.ToInt32(SelectedPageSize);
+            //LoadDadfta();
+            _ = LoadData(DateTime.Now.Month,DateTime.Now.Year);
 
-            PageNumber(Convert.ToInt32(SelectedPageSize), RoutePlanResources.Count);
+            RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
+
+
+            SelectionChangedMonthCommand = new RelayCommand<object>((p)=> { return true; },(p)=> {
+                _ = LoadData(Convert.ToInt32(SelectedMonth),Convert.ToInt32(SelectedYear));
+                RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
+                TotalPages();
+            });
+
+
+            SelectionChangedYearCommand = new RelayCommand<object> ((p) => { return true; }, (p) => {
+                _ = LoadData(Convert.ToInt32(SelectedMonth), Convert.ToInt32(SelectedYear));
+                RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
+                TotalPages();
+            }
+            );
+
+
+
+
+
+
+
+
+
+
+            //RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
+
+
+            // lấy số record trong trang
             SelectionChangedCommand = new RelayCommand<object>((p)=> { return true; },(p)=> {
-                PageNumber(Convert.ToInt32(SelectedPageSize),RoutePlanResources.Count); // số trang
-                SelectedPageNumber = "0";
+               
+                numberRecord = Convert.ToInt32(SelectedPageSize);
+                RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
+                TotalPages();
+                
             });
 
            
             SelectionChangedPageNumberCommand = new RelayCommand<object>((p)=> { return true; },(p)=> {
-                
-                MessageBox.Show(SelectedPageNumber.ToString());
+                RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(Convert.ToInt32(SelectedPageNumber) + 1, numberRecord));
+                pageNumber = Convert.ToInt32(SelectedPageNumber);
+                Showing = string.Format("Showing {0} to {1} of {2} entries", pageNumber + 1, totalPage, totalRecord);
+
             });
 
             ChangePage();
+            // Showing 1 to 10 of 36 entries
+
+
+            #region lol
+
+
+            ShowDialogCommand = new RelayCommand<object>((p) => { return true; }, (OnShowDialog));
+
+            EditCommand = new RelayCommand<RoutePlan>((p) => { return true; }, (OnShowEditDialog));
+            DeleteCommand = new RelayCommand<RoutePlan>((p) => { return true; }, (DeleteRoutePlan));
 
            
+            #endregion
 
-            
+        }
+      
 
-            NewRoutePlancommand = new RelayCommand<object>((p) => {
-                return true;
-            }, (p) => {
-                WindowNewRoutePlan wd = new WindowNewRoutePlan();
-                wd.ShowDialog();
-            });
+        private void DeleteRoutePlan(RoutePlan items)
+        {
+            RoutePlanResources.Remove(items);
+            routePlans.Remove(items);
+           
+            _ = Delete(items);
+        }
 
+        async private Task Delete(RoutePlan items)
+        {
+            RoutePlanResources.Remove(items);
+            routePlans.Remove(items);
 
-            EditCommand = new RelayCommand<RoutePlanView>((p)=> { return true; },(OnShowDialog));
+            if (await RoutePlanEndPoint.Ins.Delete(items.CompID, items.EmplID, items.CustID, items.DatePlan.ToString("yyyy-MM-dd")))
+            {
+                totalRecord = routePlans.Count;
+                TotalPages();
+                MessageBox.Show("Đã xóa");
+                
+            }
+            else
+                MessageBox.Show("Gặp lỗi");
+        }
+       
+        async private Task LoadData(int month,int year)
+        {
+            var result = await GeneralMethods.Ins.GetDataFromDB<RoutePlan>("RoutePlan/routeplans");
+            var resultByMonth = result.Where(p => p.DatePlan.Month.CompareTo(month) == 0 & p.DatePlan.Year.CompareTo(year) == 0);
+            routePlans = new ObservableCollection<RoutePlan>(resultByMonth);
+            totalRecord = routePlans.Count;
+        }
 
+        private void LoadDadfta()
+        {
+            routePlans = new ObservableCollection<RoutePlan>();
+
+            for (int i = 0; i < 102; i++)
+            {
+                if (i / 2 != 14)
+                {
+                    routePlans.Add(new RoutePlan() { EmplID = "NG", CustID = 2, DatePlan = DateTime.Now.Date, Prioritize = i, Visited = true, Note = "Ghi cai lol gi" });
+
+                }
+                else
+                    routePlans.Add(new RoutePlan() { EmplID = "NG", CustID = 1, DatePlan = DateTime.Now.Date, Prioritize = i, Visited = true, Note = "Ghi cai lol gi" });
+
+            }
+            totalRecord = routePlans.Count;
+        }
+
+        private List<RoutePlan> LoadRecord(int page,int recordNum)
+        {
+            List<RoutePlan> result = new List<RoutePlan>();
+            result = routePlans.Skip((page - 1) * recordNum).Take(recordNum).ToList();
+
+            return result;
         }
 
         private void ChangePage()
         {
             // phai3
-            ChevronRightCommand = new RelayCommand<object>((p) => {
+            NextCommand = new RelayCommand<object>((p) => {
                 if (Convert.ToInt32(SelectedPageNumber) == ItemPageNumber.Count - 1)
                     return false;
                 return true;
             }, (p) => {
-                ChevronRight();
+                NextPage();
             });
             // trai
-            ChevronLeftCommand = new RelayCommand<object>((p) => {
+            PreviousCommand = new RelayCommand<object>((p) => {
                 if (Convert.ToInt32(SelectedPageNumber) == 0)
                     return false;
                 return true;
             }, (p) => {
-                ChevronLeft();
+                PreviousPage();
             });
             // cuoi phai
-            ChevronDoubleRightCommand = new RelayCommand<object>((p) => {
+            LastCommand = new RelayCommand<object>((p) => {
                 if (Convert.ToInt32(SelectedPageNumber) == ItemPageNumber.Count - 1)
                     return false;
                 return true;
             }, (p) => {
-                ChevronDoubleRight();
+                LastPage();
             });
             // dau trai
-            ChevronDoubleLeftCommand = new RelayCommand<object>((p) => {
+            FirstCommand = new RelayCommand<object>((p) => {
                 if (SelectedPageNumber == "0")
                     return false;
                 return true;
             }, (p) => {
-                ChevronDoubleLeft();
+                FirstPage();
             });
             
 
 
         }
-        private void ChevronDoubleLeft()
+        private void FirstPage()
         {
             SelectedPageNumber = (Convert.ToInt32(ItemPageNumber[0].Name) - 1).ToString();
             for (int i = 0; i < ItemPageNumber.Count; i++)
@@ -283,8 +280,14 @@ namespace SalesMMobileAssitant.ViewModel
                 }
             }
         }
-        private void ChevronDoubleRight()
+        private void LastPage()
         {
+            if (pageNumber - 1 > 0)
+            {
+                pageNumber--;
+                RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
+            }
+           
             SelectedPageNumber = ItemPageNumber[ItemPageNumber.Count - 2].Name;
             for (int i = ItemPageNumber.Count - 1; i >= 0; i--)
             {
@@ -296,66 +299,120 @@ namespace SalesMMobileAssitant.ViewModel
                     ItemPageNumber[i].IsActive = false;
             }
         }
-        private void ChevronRight()
+        private void NextPage()
         {
-            SelectedPageNumber = (Convert.ToInt32(SelectedPageNumber) + 1).ToString();
-            for (int i = 0; i < ItemPageNumber.Count; i++)
+            if (pageNumber - 1 < totalRecord / numberRecord)
             {
-                if (ItemPageNumber[i].IsActive == true)
+                pageNumber++;
+                RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
+            }
+            int page = Convert.ToInt32(SelectedPageNumber);
+            if (page - 1 < totalPage)
+            {
+                SelectedPageNumber = (Convert.ToInt32(SelectedPageNumber) + 1).ToString();
+                if (Convert.ToInt32(SelectedPageNumber) + 5 >= totalPage)
                 {
-                    if (ItemPageNumber.Count >= 5)
+                    //ItemPageNumber[Convert.ToInt32(SelectedPageNumber) - 1].IsActive = false;
+                    for (int i = 0; i < totalPage; i++)
                     {
-                        ItemPageNumber[i].IsActive = false;
-                        int index = Convert.ToInt32(ItemPageNumber[i].Uid);
-                        for (int j = index; j < ItemPageNumber.Count; j++)
+                        if (i > totalPage - 6)
+                            ItemPageNumber[i].IsActive = true;
+                        else
+                            ItemPageNumber[i].IsActive = false;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < ItemPageNumber.Count; i++)
+                    {
+                        if (ItemPageNumber[i].IsActive == true)
                         {
-                            if (j < index + 5)
+                            if (ItemPageNumber.Count >= 5)
                             {
-                                ItemPageNumber[j].IsActive = true;
+                                ItemPageNumber[i].IsActive = false;
+                                int index = Convert.ToInt32(ItemPageNumber[i].Uid);
+                                for (int j = index; j < ItemPageNumber.Count; j++)
+                                {
+                                    if (j < index + 5)
+                                    {
+                                        ItemPageNumber[j].IsActive = true;
+                                    }
+                                    else
+                                        ItemPageNumber[j].IsActive = false;
+                                }
+                                break;
                             }
-                            else
-                                ItemPageNumber[j].IsActive = false;
                         }
-                        break;
                     }
                 }
+               
             }
+            
+
         }
-        private void ChevronLeft()
+        private void PreviousPage()
         {
-            SelectedPageNumber = (Convert.ToInt32(SelectedPageNumber) - 1).ToString();
-
-            for (int i = 0; i < ItemPageNumber.Count; i++)
+            if (pageNumber - 1 > 0)
             {
-                if (i + 1 == ItemPageNumber.Count)
+                pageNumber--;
+                RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
+            }
+            int page = Convert.ToInt32(SelectedPageNumber);
+            if (page - 1 >= 0)
+            {
+                SelectedPageNumber = (Convert.ToInt32(SelectedPageNumber) - 1).ToString();
+
+                for (int i = 0; i < ItemPageNumber.Count; i++)
                 {
-                    return;
-                }
-                if (ItemPageNumber[i].IsActive == false && ItemPageNumber[i + 1].IsActive == true)
-                {
-                    if (ItemPageNumber.Count >= 5)
+                    if (i + 1 == ItemPageNumber.Count)
                     {
-                        ItemPageNumber[i].IsActive = true;
-                        int index = Convert.ToInt32(ItemPageNumber[i].Uid);
-                        for (int j = index; j < ItemPageNumber.Count; j++)
+                        return;
+                    }
+                    if (ItemPageNumber[i].IsActive == false && ItemPageNumber[i + 1].IsActive == true)
+                    {
+                        if (ItemPageNumber.Count >= 5)
                         {
-                            if (j < index + 4)
-                                ItemPageNumber[j].IsActive = true;
-                            else
-                                ItemPageNumber[j].IsActive = false;
+                            ItemPageNumber[i].IsActive = true;
+                            int index = Convert.ToInt32(ItemPageNumber[i].Uid);
+                            for (int j = index; j < ItemPageNumber.Count; j++)
+                            {
+                                if (j < index + 4)
+                                    ItemPageNumber[j].IsActive = true;
+                                else
+                                    ItemPageNumber[j].IsActive = false;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
+
+
         }
 
+
+        private void TotalPages()
+        {
+            ItemPageNumber = new ObservableCollection<ItemPage>();
+            var Result = decimal.Divide(totalRecord, numberRecord);
+            totalPage = Convert.ToInt32(Math.Ceiling(Result));
+            SelectedPageNumber = "0";
+            for (int i = 1; i <=  totalPage ; i++)
+            {
+                if (i <= 5)
+                    ItemPageNumber.Add(new ItemPage() { Name = i.ToString() , IsActive = true, Uid = i.ToString() });
+                else
+                    ItemPageNumber.Add(new ItemPage() { Name = i.ToString(), IsActive = false, Uid = i.ToString() });
+            }
+            if (ItemPageNumber.Count == 0)
+                ItemPageNumber.Add(new ItemPage() { Name = "1", IsActive = true, Uid = "1" });
+        }
         private void PageNumber(double size,int recordCount)
         {
             ItemPageNumber = new ObservableCollection<ItemPage>();
 
             if (size >= recordCount)
-                ItemPageNumber.Add(new ItemPage() { Name = "1",IsActive=true,Uid="1"});
+                ItemPageNumber.Add(new ItemPage() { Name = "1", IsActive = true, Uid = "1"});
             else
             {
                 double resultDouble = (recordCount / size);
@@ -396,14 +453,64 @@ namespace SalesMMobileAssitant.ViewModel
             names.Add("100");
             return names;
         }
-        private void OnShowDialog(RoutePlanView routePlanView)
+        private IList<Month> AddMonth()
         {
-            IsDialogOpen = true;
-            CustomerName = routePlanView.CustomerName;
-            Address = routePlanView.Address;
-            EmployeesName = routePlanView.EmployeesName;
+            IList<Month> listMonth = new List<Month>();
+            listMonth.Add(new Month() { NumberMonth = 1,TextMonth = "January" });
+            listMonth.Add(new Month() { NumberMonth = 2, TextMonth = "February" });
+            listMonth.Add(new Month() { NumberMonth = 3, TextMonth = "March" });
+            listMonth.Add(new Month() { NumberMonth = 4, TextMonth = "April" });
+            listMonth.Add(new Month() { NumberMonth = 5, TextMonth = "May" });
+            listMonth.Add(new Month() { NumberMonth = 6, TextMonth = "June" });
+            listMonth.Add(new Month() { NumberMonth = 7, TextMonth = "July" });
+            listMonth.Add(new Month() { NumberMonth = 8, TextMonth = "August" });
+            listMonth.Add(new Month() { NumberMonth = 9, TextMonth = "September" });
+            listMonth.Add(new Month() { NumberMonth = 10, TextMonth = "October" });
+            listMonth.Add(new Month() { NumberMonth = 11, TextMonth = "November" });
+            listMonth.Add(new Month() { NumberMonth = 12, TextMonth = "December" });
+            return listMonth;
+        }
+        private IList<string> AddYear()
+        {
+            IList<string> listYear = new List<string>();
+            for (int i = 2010; i < 2023; i++)
+            {
+                listYear.Add(i.ToString());
+            }
 
+            return listYear;
+        }
+        public string CompID { get; set; }
+        private async void OnShowDialog(object lol)
+        {
+            var viewModel = new RoutePlanDialogViewModel();
+            //object dialogResult = await DialogHost.Show(viewModel, DialogIdentifier);
+
+            await DialogHost.Show(viewModel, (object sender, DialogOpenedEventArgs e) =>
+            {
+                void OnClose(object _, EventArgs args)
+                {
+                    viewModel.Close -= OnClose;
+                    e.Session.Close();
+                }
+                viewModel.Close += OnClose;
+            });
         }
 
+        private async void OnShowEditDialog(RoutePlan routePlan)
+        {
+            var viewModel = new RoutePlanDialogEditViewModel(routePlan);
+            //await MaterialDesignThemes.Wpf.DialogHost.Show(viewModel, DialogIdentifier);
+
+            await DialogHost.Show(viewModel, (object sender, DialogOpenedEventArgs e) =>
+            {
+                void OnClose(object _, EventArgs args)
+                {
+                    viewModel.Close -= OnClose;
+                    e.Session.Close();
+                }
+                viewModel.Close += OnClose;
+            });
+        }
     }
 }

@@ -25,6 +25,40 @@ namespace SalesMMobileAssitant.Helper
                 GeneralMethods._Ins = value;
             }
         }
+        public async Task<List<T>> GetDataFromDB2<T>(string urlDB)
+        {
+
+            string url = "http://webapi.local/api/" + urlDB;
+
+            HttpResponseMessage response = APIHelper.ApiClient.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsAsync<List<T>>();
+                return result;
+            }
+            return null;
+
+        }
+
+        public async Task<List<T>> GetDataFromDB<T>(string urlDB)
+        {
+
+            string url = "http://webapi.local/api/" + urlDB;
+
+            using (HttpResponseMessage response = APIHelper.ApiClient.GetAsync(url).Result)
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<T>>();
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
 
         public async Task<List<T>> GetDataFromEpicor<T>(string urlEpicor)
         {
@@ -69,5 +103,6 @@ namespace SalesMMobileAssitant.Helper
                 }
             }
         }
+     
     }
 }

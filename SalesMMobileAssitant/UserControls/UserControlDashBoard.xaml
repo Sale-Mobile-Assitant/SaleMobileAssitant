@@ -8,17 +8,15 @@
              xmlns:design="clr-namespace:SalesMMobileAssitant.ViewModel"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:sc="clr-namespace:SalesMMobileAssitant.Helper"
-             xmlns:aniScroll="clr-namespace:AnimatedScrollViewer;assembly=AnimatedScrollViewer"
+             xmlns:AttachedBehavior="clr-namespace:SalesMMobileAssitant.Helper"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d">
    
     <Grid>
-        <aniScroll:AnimatedScrollViewer
-            VerticalScrollBarVisibility="Auto"
-            ScrollingTime="00:00:00.00000001"
-            Visibility="Visible"
-            CanContentScroll="False"
-            HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer AttachedBehavior:ScrollAnimationBehavior.IsEnabled="True" 
+                      AttachedBehavior:ScrollAnimationBehavior.VerticalOffset="1000.0"
+                      AttachedBehavior:ScrollAnimationBehavior.TimeDuration="00:00:00.01"
+                      AttachedBehavior:ScrollAnimationBehavior.PointsToScroll="16">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200"/>
@@ -48,7 +46,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-                
+
                 <Grid Grid.Column="1" Grid.Row="0">
                     <Rectangle Margin="15,43,15.4,54" Fill="Green" RadiusY="5" RadiusX="10"/>
                     <Rectangle Margin="15 40" Height="100" Fill="White" RadiusY="5" RadiusX="10">
@@ -66,7 +64,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-                
+
                 <Grid Grid.Column="2" Grid.Row="0">
                     <Rectangle Margin="15,43,15.4,54" Fill="Blue" RadiusY="5" RadiusX="10"/>
                     <Rectangle Margin="15 40" Height="100" Fill="White" RadiusY="5" RadiusX="10">
@@ -110,7 +108,7 @@
                     </Rectangle>
                     <TextBlock Text="Recent Orders" Margin="15 0" FontSize="16" Padding="10" FontWeight="DemiBold"/>
 
-                    <ListView ItemsSource="{Binding SalesOrdersResources}" x:Name="ListViewOrder"  Padding="10 25"  Margin="10,40,32.6,2" FontSize="14" ScrollViewer.IsDeferredScrollingEnabled="True">
+                    <ListView ItemsSource="{Binding SalesOrdersResources}" x:Name="ListViewOrder"  Padding="10 25"  Margin="10,40,32.6,2" FontSize="14" ScrollViewer.CanContentScroll="False">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},Converter={StaticResource IndexConverter}}" Header="STT" Width="60" />
@@ -269,7 +267,8 @@
                     </Border>
                 </Grid>
             </Grid>
-        </aniScroll:AnimatedScrollViewer>
+        </ScrollViewer>
+        
     </Grid>
    
 

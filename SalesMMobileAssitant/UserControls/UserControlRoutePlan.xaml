@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:SalesMMobileAssitant.UserControls"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModel="clr-namespace:SalesMMobileAssitant.ViewModel"
              xmlns:helpers="clr-namespace:SalesMMobileAssitant.Helper"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=cbxPageSize}" >
@@ -16,197 +18,359 @@
         <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=lsvMenuItem}" >
             <i:InvokeCommandAction Command="{Binding SelectionChangedPageNumberCommand}" />
         </i:EventTrigger>
+        <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=cbxMonth}" >
+            <i:InvokeCommandAction Command="{Binding SelectionChangedMonthCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SelectionChanged" SourceObject="{Binding ElementName=cbxYear}" >
+            <i:InvokeCommandAction Command="{Binding SelectionChangedYearCommand}" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources>
         <helpers:BoolToVisibilityConverter x:Key="converter"/>
     </UserControl.Resources>
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <Grid>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15,20">
-                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" FontSize="14" materialDesign:HintAssist.Hint="Month">
-                        <ComboBoxItem Content="January"/>
-                        <ComboBoxItem Content="February"/>
-                        <ComboBoxItem Content="March"/>
-                        <ComboBoxItem Content="April"/>
-                        <ComboBoxItem Content="May"/>
-                        <ComboBoxItem Content="June"/>
-                        <ComboBoxItem Content="July"/>
-                        <ComboBoxItem Content="August"/>
-                        <ComboBoxItem Content="September"/>
-                        <ComboBoxItem Content="October"/>
-                        <ComboBoxItem Content="November"/>
-                        <ComboBoxItem Content="December"/>
-                    </ComboBox>
-                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}" FontSize="14" materialDesign:HintAssist.Hint="Year" Margin="25 0">
-                        <ComboBoxItem Content="2011"/>
-                        <ComboBoxItem Content="2013"/>
-                        <ComboBoxItem Content="2014"/>
-                        <ComboBoxItem Content="2015"/>
-                        <ComboBoxItem Content="2016"/>
-                        <ComboBoxItem Content="2017"/>
-                        <ComboBoxItem Content="2018"/>
-                        <ComboBoxItem Content="2019"/>
-                        <ComboBoxItem Content="2020"/>
-                    </ComboBox>
-                </StackPanel>
-                <Button Visibility="Hidden" Style="{StaticResource MaterialDesignRaisedDarkButton}" Command="{Binding NewRoutePlancommand}" VerticalAlignment="Center" Content="New Route Plan" HorizontalAlignment="Right" Width="150" ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Margin="15,20"/>
-            </Grid>
 
-            <Grid Height="595" >
-                <Rectangle Margin="10,0,10.2,89" Height="auto" Fill="White">
-                    <Rectangle.Effect>
-                        <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
-                    </Rectangle.Effect>
-                </Rectangle>
+    <materialDesign:DialogHost  Identifier="RootDialogHost">
+        <materialDesign:DialogHost.DialogContentTemplate>
+            <DataTemplate>
+                <DataTemplate.Resources>
+                    <DataTemplate DataType="{x:Type viewModel:RoutePlanDialogViewModel}">
+                        <Grid Margin="16" Width="500">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0"  Text="Add" Style="{StaticResource MaterialDesignTitleTextBlock}"/>
+                            <TextBox Grid.Row="1" HorizontalAlignment="Left" Grid.Column="0" Width="150" Text="{Binding CompID}" Margin="0 10" materialDesign:HintAssist.Hint="Company ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
 
-                <StackPanel Margin="10 0">
-                    <TextBlock Text="Route Plan" Margin="10 0" Padding="10" FontSize="16" FontWeight="DemiBold"/>
-                    <ListView x:Name="ListViewRoutePlan" ItemsSource="{Binding RoutePlanResources}"  Padding="10 30" Height="390" Margin="10,0,10.2,0" FontSize="14">
-                        <ListView.Resources>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.Resources>
+                            <DatePicker Grid.Row="1" DisplayDateStart="{x:Static sys:DateTime.Now}" HorizontalAlignment="Right" Grid.Column="2" Margin="0 10" SelectedDate="{Binding DatePlan, TargetNullValue={x:Static system:DateTime.Now}}" Width="150" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                            <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Width="150" Text="{Binding Prioritize}" Margin="0 10" materialDesign:HintAssist.Hint="Prioritize" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                <TextBox.DataContext>
+                                    <viewModel:NotifyErrorInfoViewModel/>
+                                </TextBox.DataContext>
+                            </TextBox>
 
-                        <ListView.View>
 
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},Converter={StaticResource IndexConverter}}" Header="STT" Width="60" />
-                                <GridViewColumn DisplayMemberBinding="{Binding EmployeesName}" Header="Emloyees Name" />
-                                <GridViewColumn DisplayMemberBinding="{Binding CustomerName}" Header="Customer Name" />
-                                <GridViewColumn DisplayMemberBinding="{Binding DataPlan}" Header="Date Plan" />
-                                <GridViewColumn DisplayMemberBinding="{Binding Address}" Header="Address" />
-                                <GridViewColumn Header="Plan Status">
-                                    <GridViewColumn.CellTemplate>
+                            <ComboBox x:Name="cbxEmployee" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding ListEmployee}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="230" SelectedValue="{Binding SelectedEmplID}" SelectedValuePath="EmplID" Margin="0 10" materialDesign:HintAssist.Hint="Employess" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding SelectionChangedEmployeeCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding EmplID}" FontWeight="DemiBold"/>
+                                            <TextBlock Text="  -  "/>
+                                            <TextBlock Text="{Binding EmplName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListCustomer}" SelectedValue="{Binding SelectedCustID}" SelectedValuePath="CustID" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="230" SelectedItem="{Binding CustID}" Margin="100 10 0 10" materialDesign:HintAssist.Hint="Customer" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding CustID}" FontWeight="DemiBold"/>
+                                            <TextBlock Text="  -  "/>
+                                            <TextBlock Text="{Binding CustName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+
+                            <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Margin="0 10">
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                            Margin="5,10,0,0"
+                            Text="{Binding Note}"
+                            VerticalAlignment="Top"
+                            Height="100"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto"
+                            materialDesign:HintAssist.Hint="Note"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="7" Grid.ColumnSpan="3" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="10">
+                                <Button Content="Cancel" Margin="10 0" Width="100" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
+                                <Button Content="Save" IsDefault="True" Width="100"
+                                Command="{Binding SaveCommand}">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsValidating}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                                <ProgressBar Value="0" IsIndeterminate="True" Margin="40 0 0 0"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <ProgressBar.Style>
+                                        <Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsValidating}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ProgressBar.Style>
+                                </ProgressBar>
+
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModel:RoutePlanDialogEditViewModel}">
+                        <Grid Margin="16" Width="500">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0"  Text="Edit" Style="{StaticResource MaterialDesignTitleTextBlock}"/>
+                            <TextBox Grid.Row="1" HorizontalAlignment="Left" Grid.Column="0" Width="150" Text="{Binding CompID}" Margin="0 10" materialDesign:HintAssist.Hint="Company ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                            <DatePicker Grid.Row="1" DisplayDateStart="{x:Static sys:DateTime.Now}" HorizontalAlignment="Right" Grid.Column="2" Margin="0 10" SelectedDate="{Binding DatePlan, TargetNullValue={x:Static system:DateTime.Now}}" Width="150" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="tbx" HorizontalAlignment="Center" Width="150" Text="{Binding Path=Tag,ElementName=tbx}" Tag="{Binding Path=Text,ElementName=loldkm}" Margin="0 10" materialDesign:HintAssist.Hint="Prioritize" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                <TextBox.DataContext>
+                                    <viewModel:NotifyErrorInfoViewModel/>
+                                </TextBox.DataContext>
+                            </TextBox>
+                            <TextBlock x:Name="loldkm" Text="{Binding Prioritize}" Visibility="Hidden"/>
+                            <ComboBox x:Name="cbxEmployee" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding ListEmployee}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="230" SelectedValue="{Binding SelectedEmplID}" SelectedValuePath="EmplID" Margin="0 10" materialDesign:HintAssist.Hint="Employess" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding SelectionChangedEmployeeCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding EmplID}" FontWeight="DemiBold"/>
+                                            <TextBlock Text="  -  "/>
+                                            <TextBlock Text="{Binding EmplName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListCustomer}" SelectedValue="{Binding SelectedCustID}" SelectedValuePath="CustID" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="230" SelectedItem="{Binding CustID}" Margin="100 10 0 10" materialDesign:HintAssist.Hint="Customer" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding CustID}" FontWeight="DemiBold"/>
+                                            <TextBlock Text="  -  "/>
+                                            <TextBlock Text="{Binding CustName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+
+                            <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Margin="0 10">
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                            Margin="5,10,0,0"
+                            Text="{Binding Note}"
+                            VerticalAlignment="Top"
+                            Height="100"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto"
+                            materialDesign:HintAssist.Hint="Note"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="7" Grid.Column="0" Content="Visited" IsChecked="{Binding IsCheckedVisit}"/>
+                            <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="1" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="10">
+                                <Button Content="Cancel" Margin="10 0" Width="100" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
+                                <Button Content="Save" IsDefault="True" Width="100"
+                                Command="{Binding SaveCommand}">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsValidating}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                                <ProgressBar Value="0" IsIndeterminate="True" Margin="40 0 0 0"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <ProgressBar.Style>
+                                        <Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsValidating}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ProgressBar.Style>
+                                </ProgressBar>
+
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </DataTemplate.Resources>
+                <ContentControl Content="{Binding}" />
+            </DataTemplate>
+            
+        </materialDesign:DialogHost.DialogContentTemplate>
+        <Grid>
+            <StackPanel Orientation="Vertical">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15,20">
+                        <ComboBox x:Name="cbxMonth" SelectedValue="{Binding SelectedMonth}" DisplayMemberPath="TextMonth" ItemsSource="{Binding ListMonth}" SelectedValuePath="NumberMonth" Style="{StaticResource MaterialDesignFloatingHintComboBox}" FontSize="14" materialDesign:HintAssist.Hint="Month"/>
+                        <ComboBox x:Name="cbxYear" Style="{StaticResource MaterialDesignFloatingHintComboBox}" SelectedValue="{Binding SelectedYear}" ItemsSource="{Binding ListYear}" FontSize="14" materialDesign:HintAssist.Hint="Year" Margin="25 0"/>
+
+                    </StackPanel>
+                    <Button Visibility="Hidden" Style="{StaticResource MaterialDesignRaisedDarkButton}" Command="{Binding NewRoutePlancommand}" VerticalAlignment="Center" Content="New Route Plan" HorizontalAlignment="Right" Width="150" ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Margin="15,20"/>
+                </Grid>
+                <Grid Height="500">
+                    <Rectangle Margin="10,0,10.6,5" Height="auto" Fill="White">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+
+
+                    <StackPanel Margin="10 0">
+                        <TextBlock Text="Route Plan" Margin="10 0" Padding="10" FontSize="16" FontWeight="DemiBold"/>
+                        <DataGrid Height="380" 
+                                  helpers:ScrollAnimationBehavior.IsEnabled="True"
+                                  x:Name="dtgRoutePlan"
+                                  ScrollViewer.CanContentScroll="False"
+                                  
+                                  Margin="0 8 0 0"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding RoutePlanResources}"
+                                  CanUserSortColumns="True"
+                                  CanUserAddRows="False"
+                                  AutoGenerateColumns="False"
+                                  materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                                  materialDesign:DataGridAssist.ColumnHeaderPadding="7">
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn
+                                    Binding="{Binding Visited}"
+                                    Header="Visited"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
+                                </DataGridCheckBoxColumn>
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding EmplID}" Header="EmplID" SortDirection="Ascending"/>
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding CustID}" Header="CustID"/>
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding DatePlan,StringFormat=dd-MM-yyyy}" Header="DatePlan"/>
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding Prioritize}" Header="Prioritize"/>
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding Note}" Header="Note"/>
+                                <DataGridTemplateColumn Header="Actions">
+                                    <DataGridTemplateColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="FontSize" Value="12"/>
+                                            <Setter Property="FontWeight" Value="DemiBold"/>
+                                        </Style>
+                                    </DataGridTemplateColumn.HeaderStyle>
+                                    <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border CornerRadius="5" Style="{StaticResource BorderTextBlockCricleColorOnStatus}">
-                                                <TextBlock x:Name="TextBlockStatus" Text="{Binding PlanStatus}"  Padding="10 3 10 3" FontWeight="Medium" Style="{StaticResource TextBlockForegroundOnStatus}"/>
-                                            </Border>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Content="Edit" Command="{Binding ElementName=dtgRoutePlan,Path=DataContext.EditCommand}" CommandParameter="{Binding}"/>
+                                                <Button Margin="10 0" Content="Delete" Command="{Binding ElementName=dtgRoutePlan,Path=DataContext.DeleteCommand}" CommandParameter="{Binding}"/>
+                                            </StackPanel>
                                         </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Actions">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <materialDesign:PopupBox  PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" VerticalAlignment="Center" Margin="15 0 0 0" HorizontalAlignment="Center">
-                                                <materialDesign:PopupBox.ToggleContent>
-                                                    <materialDesign:PackIcon Kind="DotsHorizontal"/>
-                                                </materialDesign:PopupBox.ToggleContent>
-                                                <StackPanel Width="100">
-                                                    <Button Command="{Binding ElementName=ListViewRoutePlan,Path=DataContext.EditCommand}" CommandParameter="{Binding}" Content="Edit" Foreground="Blue"/>
-                                                    <Button Command="{Binding ElementName=ListViewRoutePlan,Path=DataContext.EditCommand}" CommandParameter="{Binding}" Content="Delete" Foreground="Red"/>
-                                                </StackPanel>
-                                            </materialDesign:PopupBox>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-
-                        </ListView.View>
-
-                    </ListView>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="20">
-                            <Button Command="{Binding ChevronDoubleLeftCommand}" Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleLeft}" FontWeight="UltraBold"/>
-                            <Button Command="{Binding ChevronLeftCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronLeft}" FontWeight="UltraBold"/>
-                            <ListView x:Name="lsvMenuItem" ItemsSource="{Binding ItemPageNumber}" SelectedIndex="{Binding SelectedPageNumber}" SelectionMode="Single">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="DataContext" Value="{Binding}" />
-                                        <Setter Property="Height" Value="30" />
-                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="ListViewItem">
-                                                    <Border Background="Transparent" x:Name="MainBorder">
-                                                        <Button x:Name="button" HorizontalAlignment="Left" Visibility="{Binding IsActive, Converter={StaticResource converter}}" Content="{Binding Name}" Background="Transparent" Foreground="Blue" IsHitTestVisible="False" Width="50" BorderThickness="0"/>
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsSelected" Value="True">
-                                                            <Setter TargetName="MainBorder" Property="Background" Value="#5d78ff"/>
-                                                            <Setter TargetName="button"  Property="TextElement.FontWeight" Value="SemiBold"/>
-                                                            <Setter TargetName="button"  Property="TextElement.Foreground" Value="White"/>
-                                                            <Setter TargetName="MainBorder" Property="CornerRadius" Value="3"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="button"  Property="Background" Value="#5d78ff"/>
-                                                            <Setter Property="BorderBrush" TargetName="button" Value="#FF33962B"/>
-                                                            <Setter TargetName="button"  Property="Foreground" Value="White"/>
-                                                            <Setter TargetName="button"  Property="Cursor" Value="Hand"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <ListView.ItemsPanel >
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
-                            <Button Command="{Binding ChevronRightCommand}" Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronRight}" FontWeight="UltraBold"/>
-                            <Button Command="{Binding ChevronDoubleRightCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleRight}" FontWeight="UltraBold"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Margin="0 0 10 0" Orientation="Horizontal" HorizontalAlignment="Right"  >
-                            <ComboBox x:Name="cbxPageSize" ItemsSource="{Binding PageSizes}"  SelectedItem="{Binding SelectedPageSize}" Padding="7" Background="#FF4572A0" Foreground="White" Margin="0 15" HorizontalAlignment="Left" Width="50"/>
-                            <TextBlock Text="{Binding Showing}"/>
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
 
 
-            </Grid>
-            <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" CommandTarget="{Binding ElementName=dialog}" Style="{StaticResource MaterialDesignRaisedDarkButton}" VerticalAlignment="Center" Content="Add Route" HorizontalAlignment="Right" Width="100" ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Margin="15,20"/>
-        </StackPanel>
-
-        <materialDesign:DialogHost DialogMargin="10" IsOpen="{Binding IsDialogOpen}" x:Name="dialog">
-            <materialDesign:DialogHost.DialogContent>
-                <Grid Margin="16" Width="500">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Edit" Style="{StaticResource MaterialDesignTitleTextBlock}"/>
-                    <TextBox Grid.Row="1" Text="{Binding EmployeesName}" Margin="0 10" materialDesign:HintAssist.Hint="Employees Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox Grid.Row="2" Text="{Binding CustomerName}" Margin="0 10" materialDesign:HintAssist.Hint="Customer Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <DatePicker Grid.Row="3" Margin="0 10" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                    <TextBox Grid.Row="4" Text="{Binding Address}" Margin="0 10" materialDesign:HintAssist.Hint="Address" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <ComboBox Grid.Row="5" SelectedItem="{Binding selectedItems}" Margin="0 10" materialDesign:HintAssist.Hint="OS" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
-                        <ComboBoxItem>
-                            Android
-                        </ComboBoxItem>
-                        <ComboBoxItem>
-                            iOS
-                        </ComboBoxItem>
-                        <ComboBoxItem>
-                            Linux
-                        </ComboBoxItem>
-                        <ComboBoxItem>
-                            Windows
-                        </ComboBoxItem>
-                    </ComboBox>
-                    <StackPanel Grid.Row="6" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="10">
-                        <Button Content="Cancel" Margin="10 0" Width="100" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
-                        <Button Content="Save"  Width="100" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Grid VerticalAlignment="Top" Height="72" Margin="0,0,-0.4,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="20">
+                                <Button Command="{Binding FirstCommand}" Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleLeft}" FontWeight="UltraBold"/>
+                                <Button Command="{Binding PreviousCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronLeft}" FontWeight="UltraBold"/>
+                                <ListView x:Name="lsvMenuItem" ItemsSource="{Binding ItemPageNumber}" SelectedIndex="{Binding SelectedPageNumber}" SelectionMode="Single">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="DataContext" Value="{Binding}" />
+                                            <Setter Property="Height" Value="30" />
+                                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListViewItem">
+                                                        <Border Background="Transparent" x:Name="MainBorder">
+                                                            <Button x:Name="button" HorizontalAlignment="Left" Visibility="{Binding IsActive, Converter={StaticResource converter}}" Content="{Binding Name}" Background="Transparent" Foreground="Blue" IsHitTestVisible="False" Width="50" BorderThickness="0"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter TargetName="MainBorder" Property="Background" Value="#5d78ff"/>
+                                                                <Setter TargetName="button"  Property="TextElement.FontWeight" Value="SemiBold"/>
+                                                                <Setter TargetName="button"  Property="TextElement.Foreground" Value="White"/>
+                                                                <Setter TargetName="MainBorder" Property="CornerRadius" Value="3"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="button"  Property="Background" Value="#5d78ff"/>
+                                                                <Setter Property="BorderBrush" TargetName="button" Value="#FF33962B"/>
+                                                                <Setter TargetName="button"  Property="Foreground" Value="White"/>
+                                                                <Setter TargetName="button"  Property="Cursor" Value="Hand"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemsPanel >
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
+                                <Button Margin="10 0" Command="{Binding NextCommand}" Background="#FFC1D2F4" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronRight}" FontWeight="UltraBold"/>
+                                <Button Command="{Binding LastCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleRight}" FontWeight="UltraBold"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="0,-11,1.6,0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Height="83" >
+                                <ComboBox x:Name="cbxPageSize" ItemsSource="{Binding PageSizes}" SelectedItem="{Binding SelectedPageSize}" Padding="10 7" Background="#FF4572A0" Foreground="White" Width="66" Height="30" Margin="0,32,0,21.2"/>
+                                <TextBlock Text="{Binding Showing}" Foreground="Silver" FontWeight="Medium" Padding="15" FontSize="16" Margin="0,20,0,20.2"/>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </Grid>
-            </materialDesign:DialogHost.DialogContent>
-        </materialDesign:DialogHost>
+                <Button Command="{Binding ShowDialogCommand}" CommandTarget="{Binding ElementName=dialog}" Style="{StaticResource MaterialDesignRaisedDarkButton}" VerticalAlignment="Center" Content="Add" HorizontalAlignment="Right" Width="100" Margin="15"/>
+            </StackPanel>
+        </Grid>
+    </materialDesign:DialogHost>
 
-    </Grid>
+
+
+
+    
+    
+    
+   
 
 
 
