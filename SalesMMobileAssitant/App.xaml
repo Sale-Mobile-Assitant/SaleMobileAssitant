@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.LightBlue.xaml" />
                 <ResourceDictionary Source="/ResourceXAML/MainResources.xaml"/>
-                <ResourceDictionary Source="/Style/ControlResource.xaml"/>
+                <ResourceDictionary Source="/Style/OverridingStyle.xaml"/>
                 <!--<ResourceDictionary Source="/Style/OverridesListView.xaml"/>-->
                 <!--<ResourceDictionary Source="/ResourceXAML/ScrollViewCustom2.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>

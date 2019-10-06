@@ -90,6 +90,7 @@ namespace SalesMMobileAssitant.ViewModel
 
 
         public ICommand SelectionChangedYearCommand { get; set; }
+
         public RoutePlanViewModel()
         {
             PageSizes = GetAllPageSize();
@@ -118,15 +119,6 @@ namespace SalesMMobileAssitant.ViewModel
                 TotalPages();
             }
             );
-
-
-
-
-
-
-
-
-
 
             //RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
 

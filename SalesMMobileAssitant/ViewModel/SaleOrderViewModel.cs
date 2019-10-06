@@ -6,14 +6,40 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace SalesMMobileAssitant.ViewModel
 {
     public class SaleOrderViewModel : BaseViewModel
     {
+        #region Properties
         private ObservableCollection<Order> _SalesOrdersResources;
         public ObservableCollection<Order> SalesOrdersResources { get => _SalesOrdersResources; set { _SalesOrdersResources = value; OnPropertyChanged(); } }
+
+        private string _MyOrderID;
+        public string MyOrderID { get => _MyOrderID; set { _MyOrderID = value; OnPropertyChanged(); } }
+
+        private int _OrdeID;
+        public int OrdeID { get => _OrdeID; set { _OrdeID = value; OnPropertyChanged(); } }
+
+        private string _CustID;
+        public string CustID { get => _CustID; set { _CustID = value; OnPropertyChanged(); } }
+
+        private string _EmplID;
+        public string EmplID { get => _EmplID; set { _EmplID = value; OnPropertyChanged(); } }
+
+        private string _OrderDate;
+        public string OrderDate { get => _OrderDate; set { _OrderDate = value; OnPropertyChanged(); } }
+
+        private string _NeedByDate;
+        public string NeedByDate { get => _NeedByDate; set { _NeedByDate = value; OnPropertyChanged(); } }
+
+        private string _RequestDate;
+        public string RequestDate { get => _RequestDate; set { _RequestDate = value; OnPropertyChanged(); } }
+
+        private string _OrderStatus;
+        public string OrderStatus { get => _OrderStatus; set { _OrderStatus = value; OnPropertyChanged(); } }
 
         private ObservableCollection<Order> _routePlans;
         public ObservableCollection<Order> routePlans { get => _routePlans; set { _routePlans = value; OnPropertyChanged(); } }
@@ -27,9 +53,12 @@ namespace SalesMMobileAssitant.ViewModel
         private string _SelectedPageNumber;
         public string SelectedPageNumber { get => _SelectedPageNumber; set { _SelectedPageNumber = value; OnPropertyChanged(); } }
 
+        private string _Showing;
+        public string Showing { get => _Showing; set { _Showing = value; OnPropertyChanged(); } }
+        #endregion
+
         private string _SelectedMonth;
         public string SelectedMonth { get => _SelectedMonth; set { _SelectedMonth = value; OnPropertyChanged(); } }
-
 
 
         private string _SelectedYear;
@@ -46,6 +75,7 @@ namespace SalesMMobileAssitant.ViewModel
 
         public string SelectedPageSize { get; set; }
 
+        #region Command
         public ICommand NextCommand { get; set; }
         public ICommand PreviousCommand { get; set; }
         public ICommand LastCommand { get; set; }
@@ -55,6 +85,12 @@ namespace SalesMMobileAssitant.ViewModel
 
 
         public ICommand SelectionChangedYearCommand { get; set; }
+
+        public ICommand SelectionChangedCommand { get; set; }
+
+        public ICommand SelectionChangedPageNumberCommand { get; set; }
+
+        #endregion
         public SaleOrderViewModel()
         {
             PageSizes = GetAllPageSize();
@@ -63,8 +99,39 @@ namespace SalesMMobileAssitant.ViewModel
             SelectedPageSize = "10";
             SelectedMonth = DateTime.Now.Month.ToString();
             SelectedYear = DateTime.Now.Year.ToString();
-            _ = LoadData();
+            numberRecord = Convert.ToInt32(SelectedPageSize);
 
+            _ = LoadData(DateTime.Now.Month, DateTime.Now.Year);
+
+            SalesOrdersResources = new ObservableCollection<Order>(LoadRecord(pageNumber, numberRecord));
+
+            SelectionChangedMonthCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
+                _ = LoadData(Convert.ToInt32(SelectedMonth), Convert.ToInt32(SelectedYear));
+                SalesOrdersResources = new ObservableCollection<Order>(LoadRecord(pageNumber, numberRecord));
+                TotalPages();
+            });
+
+            SelectionChangedYearCommand = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                _ = LoadData(Convert.ToInt32(SelectedMonth), Convert.ToInt32(SelectedYear));
+                SalesOrdersResources = new ObservableCollection<Order>(LoadRecord(pageNumber, numberRecord));
+                TotalPages();
+            });
+
+            SelectionChangedCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
+                numberRecord = Convert.ToInt32(SelectedPageSize);
+                SalesOrdersResources = new ObservableCollection<Order>(LoadRecord(pageNumber, numberRecord));
+                TotalPages();
+
+            });
+            SelectionChangedPageNumberCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
+                SalesOrdersResources = new ObservableCollection<Order>(LoadRecord(Convert.ToInt32(SelectedPageNumber) + 1, numberRecord));
+                pageNumber = Convert.ToInt32(SelectedPageNumber);
+                Showing = string.Format("Showing {0} to {1} of {2} entries", pageNumber + 1, totalPage, totalRecord);
+
+            });
+
+            ChangePage();
 
         }
 
@@ -105,7 +172,20 @@ namespace SalesMMobileAssitant.ViewModel
             names.Add("100");
             return names;
         }
-        async private Task LoadData()
+
+
+        async private Task LoadData(int month, int year)
+        {
+            var result = await GeneralMethods.Ins.GetDataFromDB<Order>("Order/orders");
+            var resultByMonth = result.Where(p => p.OrderDate.Month.CompareTo(month) == 0 & p.OrderDate.Year.CompareTo(year) == 0);
+            
+           
+
+            routePlans = new ObservableCollection<Order>(resultByMonth);
+            totalRecord = routePlans.Count;
+        }
+
+        async private Task LoadData3()
         {
             SalesOrdersResources = new ObservableCollection<Order>();
 
@@ -151,6 +231,7 @@ namespace SalesMMobileAssitant.ViewModel
 
             return result;
         }
+
         private void TotalPages()
         {
             ItemPageNumber = new ObservableCollection<ItemPage>();
@@ -333,5 +414,6 @@ namespace SalesMMobileAssitant.ViewModel
 
 
         }
+    
     }
 }

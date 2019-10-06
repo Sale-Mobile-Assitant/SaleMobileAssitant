@@ -21,6 +21,7 @@ namespace SalesMMobileAssitant.ViewModel
 {
     public class DashBoardViewModel : BaseViewModel
     {
+       
         private ObservableCollection<Order> _SalesOrdersResources;
         public ObservableCollection<Order> SalesOrdersResources { get => _SalesOrdersResources; set { _SalesOrdersResources = value; OnPropertyChanged(); } }
 
@@ -69,6 +70,8 @@ namespace SalesMMobileAssitant.ViewModel
 
         private double _TotalRevenuePercent;
         public double TotalRevenuePercent { get => _TotalRevenuePercent; set { _TotalRevenuePercent = value; OnPropertyChanged(); } }
+
+
 
         public SeriesCollection SalesValueCollection { get; set; }
         public string[] LabelMonth { get; set; }

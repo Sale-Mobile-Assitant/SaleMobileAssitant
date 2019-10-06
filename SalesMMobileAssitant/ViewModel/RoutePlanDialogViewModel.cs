@@ -86,11 +86,11 @@ namespace SalesMMobileAssitant.ViewModel
         {
             if (await GeneralMethods.Ins.PostDataToDB<RoutePlan>("RoutePlan", routePlan) == true)
             {
-                //IsValidating = true;
-                //await Task.Delay(TimeSpan.FromSeconds(2));
+                IsValidating = true;
+                await Task.Delay(TimeSpan.FromSeconds(2));
                 
                 MessageBox.Show("Thêm thành công");
-                //Close?.Invoke(this, EventArgs.Empty);
+                Close?.Invoke(this, EventArgs.Empty);
             }
             else
             {

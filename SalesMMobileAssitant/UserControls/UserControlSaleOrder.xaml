@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SalesMMobileAssitant.UserControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:helpers="clr-namespace:SalesMMobileAssitant.Helper"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:AttachedBehavior="clr-namespace:SalesMMobileAssitant.Helper"
              mc:Ignorable="d">
@@ -23,7 +24,12 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <UserControl.Resources>
-        <ResourceDictionary Source="/ResourceXAML/ScrollViewCustom.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceXAML/ScrollViewCustom.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <helpers:BoolToVisibilityConverter x:Key="converter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
        
@@ -31,11 +37,17 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Vertical">
+        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center">
+           
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10 0 20 0" HorizontalAlignment="Right">
-                <DatePicker Width="100" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="10 0" FontSize="14"/>
-                <TextBox materialDesign:HintAssist.Hint="Customer ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="200" VerticalAlignment="Center" Margin="10 0" FontSize="14"/>
-                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" VerticalAlignment="Center" Content="Search" Width="100" Margin="10"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" >
+                    <ComboBox Width="100" Background="White" FontSize="16" Height="35">
+                        <ComboBoxItem Content="My OrderID" Foreground="Black"/>
+                        <ComboBoxItem Content="CustomerID" Foreground="Black"/>
+                    </ComboBox>
+                    <TextBox materialDesign:HintAssist.Hint="SEARCH" Margin="10 0" Foreground="Black" Width="300" FontSize="16"/>
+                    <materialDesign:PackIcon Kind="Magnify" Foreground="Black" Width="25" Height="25" VerticalAlignment="Center" Margin="5"/>
+                </StackPanel>
                 <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" VerticalAlignment="Center" Content="Epicor SalesOrder" Width="150" Margin="10"/>
                 <Button Style="{StaticResource MaterialDesignRaisedDarkButton}" VerticalAlignment="Center" Content="Update to Epicor" Width="100" Margin="10"/>
             </StackPanel>
@@ -51,6 +63,7 @@
                 </Rectangle.Effect>
             </Rectangle>
             <ListView Grid.Row="0" 
+                      SizeChanged="ListViewOrder_SizeChanged"
                       Padding="10"
                       ItemsSource="{Binding SalesOrdersResources}" 
                       Margin="15 0" 
@@ -59,33 +72,32 @@
                       FontSize="14"
                       ItemContainerStyle="{StaticResource MaterialDesignGridViewItem}"
                       ScrollViewer.PanningRatio="0.5"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                       ScrollViewer.PanningMode="VerticalOnly"
                       AttachedBehavior:ScrollAnimationBehavior.IsEnabled="False"
                       ScrollViewer.CanContentScroll="False">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},Converter={StaticResource IndexConverter}}" Header="STT" Width="60" />
-                        <GridViewColumn DisplayMemberBinding="{Binding MyOrderID}" Header="My OrdeID" Width="110"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding OrdeID}" Header="OrderID" Width="90"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding CustID}" Header="CustomerID" Width="130" />
-                        <GridViewColumn DisplayMemberBinding="{Binding EmplID}" Header="EmployeeID" Width="130" />
-                        <GridViewColumn DisplayMemberBinding="{Binding OrderDate,StringFormat=dd-MM-yyyy}" Header="Order Date" Width="150"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding NeedByDate,StringFormat=dd-MM-yyyy}" Header="Need by Date" Width="150" />
-                        <GridViewColumn DisplayMemberBinding="{Binding RequestDate,StringFormat=dd-MM-yyyy}" Header="Request Date" Width="150"/>
-                        <GridViewColumn Header="Order Status" Width="130">
+                        <GridViewColumn DisplayMemberBinding="{Binding MyOrderID}" Header="My OrdeID" />
+                        <GridViewColumn DisplayMemberBinding="{Binding OrdeID}" Header="OrderID"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding CustID}" Header="CustomerID"  />
+                        <GridViewColumn DisplayMemberBinding="{Binding EmplID}" Header="EmployeeID" />
+                        <GridViewColumn DisplayMemberBinding="{Binding OrderDate,StringFormat=dd-MM-yyyy}" Header="Order Date" />
+                        <GridViewColumn DisplayMemberBinding="{Binding NeedByDate,StringFormat=dd-MM-yyyy}" Header="Need by Date"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding RequestDate,StringFormat=dd-MM-yyyy}" Header="Request Date" />
+                        <GridViewColumn Header="Order Status">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Circle" Height="15" VerticalAlignment="Center" Style="{StaticResource PackIconAndCricle}"/>
-                                        <TextBlock x:Name="TextBlockStatus" Text="{Binding Path=OrderStatus}" Margin="5 0 0 0"/>
-                                    </StackPanel>
+                                    <Border CornerRadius="5" Style="{StaticResource BorderTextBlockCricleColorOnStatus}">
+                                        <TextBlock x:Name="TextBlockStatus" Tag="{Binding Path=OrderStatus}" Padding="10 3 10 3" Style="{StaticResource PackIconAndCricle2}" FontWeight="Medium" />
+                                    </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Action" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button x:Name="lol" Content="Detail" Command="{Binding ElementName=ListViewOrder,Path=DataContext.ViewDetailCommand}" CommandParameter="{Binding}" Background="Blue" Margin="0,-5,0,0" HorizontalAlignment="Left"/>
+                                    <Button x:Name="lol" Content="Detail" Command="{Binding ElementName=ListViewOrder,Path=DataContext.ViewDetailCommand}" CommandParameter="{Binding}" Background="#3498DB" Margin="0,-5,0,0" HorizontalAlignment="Left"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -144,10 +156,9 @@
                     <Button Command="{Binding LastCommand}" Background="#FFC1D2F4" Margin="10 0" BorderBrush="{x:Null}" Foreground="#1100BB" Content="{materialDesign:PackIcon ChevronDoubleRight}" FontWeight="UltraBold"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="0,0,5,0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Height="83" >
-                    <ComboBox x:Name="cbxMonth" MaxDropDownHeight="130" ItemsSource="{Binding ListMonth}" SelectedIndex="0" DisplayMemberPath="TextMonth" SelectedValuePath="NumberMonth" materialDesign:HintAssist.Hint="Month" materialDesign:HintAssist.HintOpacity=".26"/>
-                    <!--<ComboBox  SelectedValue="{Binding SelectedMonth}" Style="{StaticResource MaterialDesignFloatingHintComboBox}"  Background="#FF4572A0" Foreground="White" Width="100" Height="30" Margin="10"/>-->
-                    <ComboBox x:Name="cbxYear" ItemsSource="{Binding ListYear}" SelectedValue="{Binding SelectedYear}" SelectedItem="{Binding SelectedPageSize}" Padding="10 7"  Foreground="White" Width="66" Height="30" Margin="10 0"/>
-                    <ComboBox x:Name="cbxPageSize" ItemsSource="{Binding PageSizes}" SelectedItem="{Binding SelectedPageSize}" Padding="10 7" Background="#FF4572A0" Foreground="White" Width="66" Height="30" Margin="10 0"/>
+                    <ComboBox x:Name="cbxMonth" SelectedValue="{Binding SelectedMonth}" ScrollViewer.VerticalScrollBarVisibility="Hidden" MaxDropDownHeight="130" ItemsSource="{Binding ListMonth}" Padding="10 7" DisplayMemberPath="TextMonth"   Background="#FF4572A0" Foreground="White" SelectedValuePath="NumberMonth" Width="100" materialDesign:HintAssist.Hint="Month" materialDesign:HintAssist.HintOpacity=".26" Margin="10 0" FontWeight="DemiBold"/>
+                    <ComboBox x:Name="cbxYear" SelectedValue="{Binding SelectedYear}" MaxDropDownHeight="130" ItemsSource="{Binding ListYear}" Padding="10 7"  Background="#FF4572A0" Foreground="White" materialDesign:HintAssist.Hint="Year" materialDesign:HintAssist.HintOpacity=".26" Width="70" Margin="10 0"  FontWeight="DemiBold"/>
+                    <ComboBox x:Name="cbxPageSize" ItemsSource="{Binding PageSizes}" SelectedItem="{Binding SelectedPageSize}" Padding="10 7" Background="#FF4572A0" Foreground="White" Width="66" Height="30" Margin="10 0"  FontWeight="DemiBold"/>
                     <TextBlock Text="{Binding Showing}" Foreground="Silver" FontWeight="Medium" Padding="15" FontSize="16" Margin="0,20,0,20.2"/>
                 </StackPanel>
             </Grid>

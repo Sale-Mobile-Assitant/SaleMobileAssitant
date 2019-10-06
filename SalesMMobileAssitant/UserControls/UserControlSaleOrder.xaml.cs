@@ -27,7 +27,33 @@ namespace SalesMMobileAssitant.UserControls
             InitializeComponent();
 
         }
-       
 
+        private void ListViewOrder_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ListView listView = sender as ListView;
+            GridView gView = listView.View as GridView;
+
+            var workingWidth = listView.ActualWidth - SystemParameters.VerticalScrollBarWidth; // take into account vertical scrollbar
+            var col1 = 0.09;
+            var col2 = 0.08;
+            var col3 = 0.1;
+            var col4 = 0.1;
+            var col5 = 0.14;
+            var col6 = 0.14;
+            var col7 = 0.14;
+            var col8 = 0.12;
+            var col9 = 0.12;
+
+
+            gView.Columns[0].Width = workingWidth * col1;
+            gView.Columns[1].Width = workingWidth * col2;
+            gView.Columns[2].Width = workingWidth * col3;
+            gView.Columns[3].Width = workingWidth * col4;
+            gView.Columns[4].Width = workingWidth * col5;
+            gView.Columns[5].Width = workingWidth * col6;
+            gView.Columns[6].Width = workingWidth * col7;
+            gView.Columns[7].Width = workingWidth * col8;
+            gView.Columns[8].Width = workingWidth * col9;
+        }
     }
 }
