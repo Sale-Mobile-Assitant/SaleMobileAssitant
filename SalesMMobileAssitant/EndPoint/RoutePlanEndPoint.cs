@@ -56,22 +56,27 @@ namespace SalesMMobileAssitant.EndPoint
         }
         public async Task<bool> Delete(string CompID, string EmplID, int CustID, string DatePlan)
         {
-            string url = string.Format("http://webapi.local/api/RoutePlan/{0},{1},{2},{3}", CompID, EmplID, CustID, DatePlan);
-
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, url);
-          
-
-            using (HttpResponseMessage response = await APIHelper.ApiClient.SendAsync(message))
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.URIAPI))
             {
-                if (response.IsSuccessStatusCode)
+                string url = string.Format(Properties.Settings.Default.URIAPI + "/api/RoutePlan/{0},{1},{2},{3}", CompID, EmplID, CustID, DatePlan);
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, url);
+
+
+                using (HttpResponseMessage response = await APIHelper.ApiClient.SendAsync(message))
                 {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
+            return false;
+           
         }
 
     }

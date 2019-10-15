@@ -48,11 +48,11 @@
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Tag,ElementName=TextBlockStatus}" Value="2">
                 <Setter Property="Text" Value="Verifying"/>
-                <Setter Property="Foreground" Value="Yellow"/>
+                <Setter Property="Foreground" Value="#FFCC55"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Tag,ElementName=TextBlockStatus}" Value="3">
                 <Setter Property="Text" Value="Completed"/>
-                <Setter Property="Foreground" Value="Green"/>
+                <Setter Property="Foreground" Value="#0ABB87"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -79,11 +79,11 @@
             <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="Canceled">
                 <Setter Property="Background" Value="#FFF8E8"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="2">
-                <Setter Property="Background" Value="Yellow"/>
+            <DataTrigger Binding="{Binding Path=Tag,ElementName=TextBlockStatus}" Value="2">
+                <Setter Property="Background" Value="#FFF8E8"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Text,ElementName=TextBlockStatus}" Value="3">
-                <Setter Property="Background" Value="Green"/>
+            <DataTrigger Binding="{Binding Path=Tag,ElementName=TextBlockStatus}" Value="3">
+                <Setter Property="Background" Value="#CBF0E5"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

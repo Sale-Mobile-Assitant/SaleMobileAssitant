@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              xmlns:domain="clr-namespace:SalesMMobileAssitant.Helper"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+   
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -15,7 +16,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="200"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="200"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,0.2,1">
@@ -29,8 +30,41 @@
                 <TextBox x:Name="lol" Text="VLXX" Margin="10 0" FontSize="14" materialDesign:HintAssist.Hint="Code Connect" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                 <Button Command="{Binding RetrieveCommand}" CommandParameter="{Binding Text,ElementName=lol}" Margin="10" Content="Retrieve Database Epicor" Width="200" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
             </StackPanel>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Margin="0,0,0.2,1">
+            <Rectangle Margin="10,10,1.4,10" Height="auto" Fill="White">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <StackPanel Orientation="Vertical" Margin="15">
+                <TextBlock Text="Detele Order Epicor" FontSize="18" Padding="10" FontWeight="DemiBold" Foreground="DarkBlue" HorizontalAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding FromOrderNum,UpdateSourceTrigger=PropertyChanged}" Margin="10 0" FontSize="14" materialDesign:HintAssist.Hint="From OrderNum" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <TextBox Grid.Column="1" Text="{Binding ToOrderNum,UpdateSourceTrigger=PropertyChanged}" Margin="10 0" FontSize="14" materialDesign:HintAssist.Hint="To OrderNum" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                </Grid>
+                <Button Command="{Binding DeleteOrderEpicorCommand}" CommandParameter="{Binding Text,ElementName=lol}" Margin="10" Content="Delete" Width="100" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
+            </StackPanel>
+        </Grid>
 
-
+        <Grid Grid.Row="1" Grid.Column="0" Margin="0,0,0.2,1">
+            <Rectangle Margin="10,10,1.4,10" Height="auto" Fill="White">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <StackPanel Orientation="Vertical" Margin="15">
+                <TextBlock Text="Setting URI" FontSize="18" Padding="10" FontWeight="DemiBold" Foreground="DarkBlue" HorizontalAlignment="Center"/>
+                <TextBox Margin="10 0" FontSize="14" Text="{Binding UriApi,UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Uri Api" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                <StackPanel Orientation="Horizontal" Margin="0 30 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <Button Content="Test Conection" Command="{Binding TestConnectionCommand}" />
+                    <Button Margin="15 0" Content="Save" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Grid>
    

@@ -8,19 +8,23 @@
              xmlns:design="clr-namespace:SalesMMobileAssitant.ViewModel"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:sc="clr-namespace:SalesMMobileAssitant.Helper"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:AttachedBehavior="clr-namespace:SalesMMobileAssitant.Helper"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d">
-   
-    <Grid>
-        <ScrollViewer AttachedBehavior:ScrollAnimationBehavior.IsEnabled="True" 
-                      AttachedBehavior:ScrollAnimationBehavior.VerticalOffset="1000.0"
-                      AttachedBehavior:ScrollAnimationBehavior.TimeDuration="00:00:00.01"
-                      AttachedBehavior:ScrollAnimationBehavior.PointsToScroll="16">
+
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="DataClick" SourceObject="{Binding ElementName=ChartSaleMan}" >
+            <i:InvokeCommandAction Command="{Binding DataClickCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
+    <ScrollViewer AttachedBehavior:ScrollAnimationBehavior.IsEnabled="True"
+                  AttachedBehavior:ScrollAnimationBehavior.TimeDuration="00:00:00:0.00001">
+        <Grid>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="200"/>
-                    <RowDefinition Height="300"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="420"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -30,13 +34,13 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Grid.Row="0">
-                    <Rectangle Margin="15,43,15.4,54" Fill="Red" RadiusY="5" RadiusX="10"/>
-                    <Rectangle Margin="15 40" Height="100" Fill="White" RadiusY="5" RadiusX="10">
+                    <Rectangle Margin="15,10,15.4,35" Fill="Red" RadiusY="5" RadiusX="10"/>
+                    <Rectangle Margin="15 -20 15 0" Height="100" Fill="White" RadiusY="5" RadiusX="10">
                         <Rectangle.Effect>
                             <DropShadowEffect BlurRadius="20" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="1"/>
                         </Rectangle.Effect>
                     </Rectangle>
-                    <Grid Margin="35,50,24,50" Height="100">
+                    <Grid Margin="35,15,24,50" Height="100">
                         <TextBlock Text="TOTAL REVENUE" Foreground="#8898AA" Margin="10"/>
                         <TextBlock Text="{Binding TotalRevenue}" Margin="10 25" Foreground="#32325D" FontSize="25" FontWeight="DemiBold"/>
                         <StackPanel Orientation="Horizontal" Style="{StaticResource PanelStyleElementChildTextBlock}" VerticalAlignment="Center" Margin="10,70,10,13" Height="17">
@@ -48,13 +52,13 @@
                 </Grid>
 
                 <Grid Grid.Column="1" Grid.Row="0">
-                    <Rectangle Margin="15,43,15.4,54" Fill="Green" RadiusY="5" RadiusX="10"/>
-                    <Rectangle Margin="15 40" Height="100" Fill="White" RadiusY="5" RadiusX="10">
+                    <Rectangle Margin="15,10,15.4,35" Fill="Green" RadiusY="5" RadiusX="10"/>
+                    <Rectangle Margin="15 -20 15 0" Height="100" Fill="White" RadiusY="5" RadiusX="10">
                         <Rectangle.Effect>
                             <DropShadowEffect BlurRadius="20" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="1"/>
                         </Rectangle.Effect>
                     </Rectangle>
-                    <Grid Margin="35,50,24,50" Height="100">
+                    <Grid Margin="35,15,24,50" Height="100">
                         <TextBlock Text="ORDERS RECEIVED" Foreground="#8898AA" Margin="10"/>
                         <TextBlock Text="{Binding OrderReceived}" Margin="10 25" Foreground="#32325D" FontSize="25" FontWeight="DemiBold"/>
                         <StackPanel Orientation="Horizontal" Style="{StaticResource PanelStyleElementChildTextBlock}" VerticalAlignment="Center" Margin="10,70,10,13" Height="17">
@@ -66,30 +70,31 @@
                 </Grid>
 
                 <Grid Grid.Column="2" Grid.Row="0">
-                    <Rectangle Margin="15,43,15.4,54" Fill="Blue" RadiusY="5" RadiusX="10"/>
-                    <Rectangle Margin="15 40" Height="100" Fill="White" RadiusY="5" RadiusX="10">
+                    <Rectangle Margin="15,10,15.4,35" Fill="Blue" RadiusY="5" RadiusX="10"/>
+                    <Rectangle Margin="15 -20 15 0" Height="100" Fill="White" RadiusY="5" RadiusX="10">
                         <Rectangle.Effect>
                             <DropShadowEffect BlurRadius="20" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="1"/>
                         </Rectangle.Effect>
                     </Rectangle>
-                    <Grid Margin="35,50,24,50" Height="100">
+                    <Grid Margin="35,15,24,50" Height="100">
                         <TextBlock Text="PRODUCTS SOLD" Foreground="#8898AA" Margin="10"/>
-                        <TextBlock Text="850" Margin="10 25" Foreground="#32325D" FontSize="25" FontWeight="DemiBold"/>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,70,10,13" Height="17">
-                            <materialDesign:PackIcon Kind="ArrowUp" Foreground="LawnGreen"/>
-                            <TextBlock Text="2.03%" FontFamily="Champagne &amp; Limousines" FontWeight="Bold" Foreground="LightGreen" FontSize="15"/>
+                        <TextBlock Text="{Binding ProductSold}" Margin="10 25" Foreground="#32325D" FontSize="25" FontWeight="DemiBold"/>
+                        <StackPanel Orientation="Horizontal" Style="{StaticResource PanelStyleElementChildTextBlock}" VerticalAlignment="Center" Margin="10,70,10,13" Height="17">
+                            <materialDesign:PackIcon x:Name="ProductSoldIcon" Kind="{Binding Path=Tag,ElementName=ProductSoldIcon}" Foreground="{Binding Path=Foreground,ElementName=ProductSoldName}" Tag="{Binding Path=Uid,ElementName=ProductSoldName}"/>
+                            <TextBlock x:Name="ProductSoldName" Text="{Binding ProductSoldPercent,StringFormat={}{0:0.##}%}" Tag="{Binding ProductSoldTag}" FontFamily="Champagne &amp; Limousines" FontWeight="Bold" FontSize="15"/>
                             <TextBlock Text="Since last month" Foreground="#8898AA" Margin="10 0"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
+
                 <Grid Grid.Column="3" Grid.Row="0">
-                    <Rectangle Margin="15,43,15.4,54" Fill="Aqua" RadiusY="5" RadiusX="10"/>
-                    <Rectangle Margin="15 40" Height="100" Fill="White" RadiusY="5" RadiusX="10">
+                    <Rectangle Margin="15,10,15.4,35" Fill="Aqua" RadiusY="5" RadiusX="10"/>
+                    <Rectangle Margin="15 -20 15 0" Height="100" Fill="White" RadiusY="5" RadiusX="10">
                         <Rectangle.Effect>
                             <DropShadowEffect BlurRadius="20" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="1"/>
                         </Rectangle.Effect>
                     </Rectangle>
-                    <Grid Margin="35,50,24,50" Height="100">
+                    <Grid Margin="35,15,24,50" Height="100">
                         <TextBlock Text="NEW CUSTOMER" Foreground="#8898AA" Margin="10"/>
                         <TextBlock Text="1023" Margin="10 25" Foreground="#32325D" FontSize="25" FontWeight="DemiBold"/>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,70,10,13" Height="17">
@@ -100,62 +105,56 @@
                     </Grid>
                 </Grid>
 
-                <Grid Grid.Row="1" Grid.ColumnSpan="4" Height="300">
-                    <Rectangle Margin="10 0 30 0" Height="auto" Fill="White">
-                        <Rectangle.Effect>
+                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Border Margin="25 10" Background="White"   Padding="8" CornerRadius="3" BorderThickness="1" BorderBrush="#EBEBEB">
+                        <Border.Effect>
                             <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
-                        </Rectangle.Effect>
-                    </Rectangle>
-                    <TextBlock Text="Recent Orders" Margin="15 0" FontSize="16" Padding="10" FontWeight="DemiBold"/>
-
-                    <ListView ItemsSource="{Binding SalesOrdersResources}" x:Name="ListViewOrder"  Padding="10 25"  Margin="10,40,32.6,2" FontSize="14" ScrollViewer.CanContentScroll="False">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},Converter={StaticResource IndexConverter}}" Header="STT" Width="60" />
-                                <GridViewColumn DisplayMemberBinding="{Binding MyOrderID}" Header="My OrdeID" Width="110"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding OrdeID}" Header="OrderID" Width="90"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding CustID}" Header="CustomerID" Width="130" />
-                                <GridViewColumn DisplayMemberBinding="{Binding EmplID}" Header="EmployeeID" Width="130" />
-                                <GridViewColumn DisplayMemberBinding="{Binding OrderDate,StringFormat=dd-MM-yyyy}" Header="Order Date" Width="150"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding NeedByDate,StringFormat=dd-MM-yyyy}" Header="Need by Date" Width="150" />
-                                <GridViewColumn DisplayMemberBinding="{Binding RequestDate,StringFormat=dd-MM-yyyy}" Header="Request Date" Width="150"/>
-                                <GridViewColumn Header="Order Status" Width="130">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Kind="Circle" Height="15" VerticalAlignment="Center" Style="{StaticResource PackIconAndCricle}"/>
-                                                <TextBlock x:Name="TextBlockStatus" Text="{Binding Path=OrderStatus}" Margin="5 0 0 0"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Action" >
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button x:Name="lol" Content="Detail" Command="{Binding ElementName=ListViewOrder,Path=DataContext.ViewDetailCommand}" CommandParameter="{Binding}" Background="Blue" Margin="0,-5,0,0" HorizontalAlignment="Left"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                        </Border.Effect>
+                        <Grid>
+                            <TextBlock Text="Top 5 Sale man" FontSize="16" FontWeight="DemiBold"/>
+                            <lvc:PieChart x:Name="ChartSaleMan" LegendLocation="Bottom" Hoverable="True" DataTooltip="{x:Null}" Series="{Binding TopSaleManSeries}"/>
+                        </Grid>
+                    </Border>
+                    
                 </Grid>
 
-                <Grid Grid.Row="2" Grid.Column="0" Margin="0,0,0.2,1">
-                    <Rectangle Margin="10,10,1.4,10" Height="auto" Fill="White">
+                <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                    <Border Margin="25 10" Background="White"   Padding="8" CornerRadius="3" BorderThickness="1" BorderBrush="#EBEBEB">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
+                        </Border.Effect>
+                        <Grid>
+                            <TextBlock Text="Top 5 Product" FontSize="16" FontWeight="DemiBold"/>
+                            <lvc:PieChart Name="Chart" Grid.Row="1" Series="{Binding SeriesCollection}" 
+                      LegendLocation="Right" InnerRadius="100" Margin="0 15">
+                                <lvc:PieChart.ChartLegend>
+                                    <lvc:DefaultLegend BulletSize="20"></lvc:DefaultLegend>
+                                </lvc:PieChart.ChartLegend>
+                                <lvc:PieChart.DataTooltip>
+                                    <lvc:DefaultTooltip BulletSize="20"></lvc:DefaultTooltip>
+                                </lvc:PieChart.DataTooltip>
+                            </lvc:PieChart>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+
+                <Grid Grid.Row="3" Grid.Column="4" Margin="0,0,0.2,1">
+                    <Rectangle Margin="10,10,26.4,9.8" Height="auto" Fill="White">
                         <Rectangle.Effect>
                             <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
                         </Rectangle.Effect>
                     </Rectangle>
-                    <StackPanel Orientation="Vertical" Margin="15">
-                        <TextBlock Text="Top Menbers" FontSize="16" Padding="10" FontWeight="DemiBold"/>
-                        <ListView>
+                    <StackPanel Orientation="Vertical" Margin="15,15,29.2,14.8">
+                        <TextBlock Text="Top Customers" FontSize="16" Padding="10" FontWeight="DemiBold" Margin="0,0,11.2,0"/>
+                        <ListView Margin="0,0,4,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListViewItem HorizontalAlignment="Stretch">
                                 <Grid HorizontalAlignment="Center" Margin="5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="50"/>
-                                        <ColumnDefinition Width="150"/>
-                                        <ColumnDefinition Width="50*"/>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <Border Width="40" Height="40" CornerRadius="25" BorderBrush="White" BorderThickness="0.6">
@@ -163,9 +162,9 @@
                                             <ImageBrush ImageSource="/SalesMMobileAssitant;component/Assets/challenger.png"/>
                                         </Border.Background>
                                     </Border>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="Rayhan Alvarado" Margin="10 0"/>
-                                        <TextBlock Text="Today is Mariah's bday!" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
+                                    <StackPanel Grid.Column="1" Margin="0.4,0,-33,-0.4">
+                                        <TextBlock Text="{Binding CustomerName1}" FontWeight="DemiBold" Foreground="#186FF5" Margin="10,0,1.4,0"/>
+                                        <TextBlock Text="{Binding Currency1,StringFormat={}{0: # ##0} $}" FontWeight="DemiBold" Foreground="Red" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
                                     </StackPanel>
                                 </Grid>
                             </ListViewItem>
@@ -182,9 +181,9 @@
                                             <ImageBrush ImageSource="/SalesMMobileAssitant;component/Assets/master.png"/>
                                         </Border.Background>
                                     </Border>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="Rayhan Alvarado" Margin="10 0"/>
-                                        <TextBlock Text="Today is Mariah's bday!" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
+                                    <StackPanel Grid.Column="1" Margin="0.4,0,-33,-0.4">
+                                        <TextBlock Text="{Binding CustomerName2}" FontWeight="DemiBold" Foreground="#186FF5" Margin="10,0,1.4,0"/>
+                                        <TextBlock Text="{Binding Currency2,StringFormat={}{0: # ##0} $}" FontWeight="DemiBold" Foreground="Red" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
                                     </StackPanel>
                                 </Grid>
                             </ListViewItem>
@@ -201,9 +200,9 @@
                                             <ImageBrush ImageSource="/SalesMMobileAssitant;component/Assets/diamond.png"/>
                                         </Border.Background>
                                     </Border>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="Rayhan Alvarado" Margin="10 0"/>
-                                        <TextBlock Text="Today is Mariah's bday!" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
+                                    <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Margin="0.4,0,-33,-0.4">
+                                        <TextBlock Text="{Binding CustomerName3}" FontWeight="DemiBold" Foreground="#186FF5" Margin="10,0,0,0"/>
+                                        <TextBlock Text="{Binding Currency3,StringFormat={}{0: # ##0} $}" FontWeight="DemiBold" Foreground="Red" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
                                     </StackPanel>
                                 </Grid>
                             </ListViewItem>
@@ -220,9 +219,9 @@
                                             <ImageBrush ImageSource="/SalesMMobileAssitant;component/Assets/platinum.png"/>
                                         </Border.Background>
                                     </Border>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="Rayhan Alvarado" Margin="10 0"/>
-                                        <TextBlock Text="Today is Mariah's bday!" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
+                                    <StackPanel Grid.Column="1" Margin="0.4,0,-33,-0.4">
+                                        <TextBlock Text="{Binding CustomerName4}" FontWeight="DemiBold" Foreground="#186FF5" Margin="10,0,1.4,0"/>
+                                        <TextBlock Text="{Binding Currency4,StringFormat={}{0: # ##0} $}" FontWeight="DemiBold" Foreground="Red" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
                                     </StackPanel>
                                 </Grid>
                             </ListViewItem>
@@ -239,22 +238,23 @@
                                             <ImageBrush ImageSource="/SalesMMobileAssitant;component/Assets/gold.png"/>
                                         </Border.Background>
                                     </Border>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="Rayhan Alvarado" Margin="10 0"/>
-                                        <TextBlock Text="Today is Mariah's bday!" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
+                                    <StackPanel Grid.Column="1" Margin="0.4,0,-33,-0.4">
+                                        <TextBlock Text="{Binding CustomerName5}" FontWeight="DemiBold" Foreground="#186FF5" Margin="10,0,1.4,0"/>
+                                        <TextBlock Text="{Binding Currency5,StringFormat={}{0: # ##0} $}" FontWeight="DemiBold" Foreground="Red" Margin="10 0" TextTrimming="CharacterEllipsis" Opacity="0.6" FontSize="11"/>
                                     </StackPanel>
                                 </Grid>
                             </ListViewItem>
                         </ListView>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
+
+                <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
                     <Border Margin="25 10" Background="White"   Padding="8" CornerRadius="3" BorderThickness="1" BorderBrush="#EBEBEB">
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="30" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="2"/>
                         </Border.Effect>
                         <Grid>
-                            <TextBlock Text="Totle Order Received" FontSize="16" FontWeight="DemiBold"/>
+                            <TextBlock Text="Total Order Received" FontSize="16" FontWeight="DemiBold"/>
                             <lvc:CartesianChart Series="{Binding SalesValueCollection}" Margin="0 20 0 0" LegendLocation="Right" >
                                 <lvc:CartesianChart.AxisY>
                                     <lvc:Axis Title="Sales" LabelFormatter="{Binding SalesY}"></lvc:Axis>
@@ -267,10 +267,10 @@
                     </Border>
                 </Grid>
             </Grid>
-        </ScrollViewer>
-        
-    </Grid>
-   
+        </Grid>
+
+    </ScrollViewer>
+
 
 
 </UserControl>  

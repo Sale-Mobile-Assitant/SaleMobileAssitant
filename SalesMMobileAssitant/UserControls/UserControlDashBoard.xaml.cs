@@ -30,9 +30,11 @@ namespace SalesMMobileAssitant.UserControls
         public UserControlDashBoard()
         {
             InitializeComponent();
-        }
-       
+          
 
+        }
+
+      
     }
 
 }

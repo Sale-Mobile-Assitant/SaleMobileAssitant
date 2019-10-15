@@ -19,5 +19,20 @@ namespace SalesMMobileAssitant.Model
         public string Country { get; set; }
         public string PhoneNum { get; set; }
         public double Discount { get; set; }
+
+        private string _Address;
+        public string Address
+        {
+            get
+            {
+                return string.Format("{0} {1} {2}", this.Address1, this.Address2,this.Address3);
+            }
+            set{ _Address = value; }
+        }
+
+    }
+    public class ServiceCustomer : Customer
+    {
+        public Order[] Order { get; set; }
     }
 }

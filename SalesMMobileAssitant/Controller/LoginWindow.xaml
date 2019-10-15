@@ -37,6 +37,8 @@
             <StackPanel Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="Key" VerticalAlignment="Center" Foreground="#707070"/>
                 <PasswordBox x:Name="FloatingPasswordBox" materialDesign:HintAssist.Hint="Password" Width="250" Margin="5"/>
+
+
             </StackPanel>
             <Grid>
                 <CheckBox IsChecked="{Binding IsChecked}" Content="Remember Me" Margin="5,10" Foreground="#707070"/>
@@ -47,9 +49,9 @@
             <Button Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=loginWindow}" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}">
                 <materialDesign:PackIcon Kind="Close" Foreground="Black" Height="25"/>
             </Button>
-            <TextBlock Text="IT" Foreground="White" HorizontalAlignment="Center" FontSize="48" FontFamily="Champagne &amp; Limousines" FontWeight="Bold"/>
-            <TextBlock Text="IT is short for Information Technology and is pronounced as separate letters" Foreground="White" HorizontalAlignment="Center" Width="280" FontSize="24" FontFamily="Champagne &amp; Limousines" TextWrapping="Wrap" TextAlignment="Center" Margin="0,50,0,0"/>
-            <TextBlock Text="Vangie Beal" Foreground="White" FontSize="18" FontFamily="Champagne &amp; Limousines" TextWrapping="Wrap" TextAlignment="Right" Margin="10"/>
+            <TextBlock Visibility="Hidden" Text="IT" Foreground="White" HorizontalAlignment="Center" FontSize="48" FontFamily="Champagne &amp; Limousines" FontWeight="Bold"/>
+            <TextBlock Visibility="Hidden" Text="IT is short for Information Technology and is pronounced as separate letters" Foreground="White" HorizontalAlignment="Center" Width="280" FontSize="24" FontFamily="Champagne &amp; Limousines" TextWrapping="Wrap" TextAlignment="Center" Margin="0,50,0,0"/>
+            <TextBlock Visibility="Hidden" Text="Vangie Beal" Foreground="White" FontSize="18" FontFamily="Champagne &amp; Limousines" TextWrapping="Wrap" TextAlignment="Right" Margin="10"/>
         </StackPanel>
     </Grid>
 </Window>

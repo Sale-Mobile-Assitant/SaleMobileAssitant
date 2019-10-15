@@ -27,14 +27,14 @@ namespace SalesMMobileAssitant.ViewModel
         private string _EmplID;
         public string EmplID { get => _EmplID; set { _EmplID = value; OnPropertyChanged(); } }
 
-        private DateTime _OrderDate;
-        public DateTime OrderDate { get => _OrderDate; set { _OrderDate = value; OnPropertyChanged(); } }
+        private DateTime? _OrderDate;
+        public DateTime? OrderDate { get => _OrderDate; set { _OrderDate = value; OnPropertyChanged(); } }
 
-        private DateTime _NeedByDate;
-        public DateTime NeedByDate { get => _NeedByDate; set { _NeedByDate = value; OnPropertyChanged(); } }
+        private DateTime? _NeedByDate;
+        public DateTime? NeedByDate { get => _NeedByDate; set { _NeedByDate = value; OnPropertyChanged(); } }
 
-        private DateTime _RequestDate;
-        public DateTime RequestDate { get => _RequestDate; set { _RequestDate = value; OnPropertyChanged(); } }
+        private DateTime? _RequestDate;
+        public DateTime? RequestDate { get => _RequestDate; set { _RequestDate = value; OnPropertyChanged(); } }
 
         private string _OrderStatus;
         public string OrderStatus { get => _OrderStatus; set { _OrderStatus = value; OnPropertyChanged(); } }
@@ -66,8 +66,6 @@ namespace SalesMMobileAssitant.ViewModel
         }
         private void LoadData(Order orders)
         {
-           
-
             Orders = orders;
 
             MyOrderID = Orders.MyOrderID;
@@ -89,7 +87,10 @@ namespace SalesMMobileAssitant.ViewModel
                     MyOrderID = item.MyOrderID,
                     ProdID = item.ProdID,
                     SellingQuantity = item.SellingQuantity,
-                    UnitPrice = item.UnitPrice
+                    UnitPrice = item.UnitPrice,
+                    OrderLine = item.OrderLine,
+                    OrderNum = item.OrderNum,
+                    
                 };
                 OrderDetilResource.Add(orderDetail);
             }

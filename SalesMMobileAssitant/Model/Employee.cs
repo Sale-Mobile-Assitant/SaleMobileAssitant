@@ -19,5 +19,16 @@ namespace SalesMMobileAssitant.Model
         public DateTime DateIn { get; set; }
         public DateTime DateOut { get; set; }
 
+        private string _Address;
+        public string Address
+        {
+            get
+            {
+                return string.Format("{0} {1} {2}", this.Address1, this.Address2, this.Address3);
+            }
+            set { _Address = value; }
+        }
+
+        public Customer[] Customer { get; set; }
     }
 }

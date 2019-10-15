@@ -8,7 +8,7 @@
         x:Name="WindowMain"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Height="550" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False">
+        Height="550" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=WindowMain}" >
@@ -87,10 +87,12 @@
                                 <GridView>
                                     <GridViewColumn DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}},Converter={StaticResource IndexConverter}}" Header="STT" Width="60" />
                                     <GridViewColumn DisplayMemberBinding="{Binding SiteID}" Header="SiteID" Width="110"/>
-                                    <GridViewColumn DisplayMemberBinding="{Binding MyOrderID}" Header="MyOrderID" Width="90"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding MyOrderID}" Header="MyOrderID" Width="110"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding OrderNum}" Header="OrderNum" Width="100"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding OrderLine}" Header="OrderLine" Width="100"/>
                                     <GridViewColumn DisplayMemberBinding="{Binding ProdID}" Header="ProdID" Width="130" />
                                     <GridViewColumn DisplayMemberBinding="{Binding SellingQuantity}" Header="Selling Quantity" Width="150" />
-                                    <GridViewColumn Header="UnitPrice" Width="130" >
+                                    <GridViewColumn Header="UnitPrice" Width="120" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding UnitPrice,StringFormat={}{0:$ # ##0}}" Foreground="Purple"/>

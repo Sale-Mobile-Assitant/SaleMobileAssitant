@@ -104,10 +104,10 @@ namespace SalesMMobileAssitant.ViewModel
                     CurrentViewModel = new SaleOrderViewModel();
                     break;
                 case 2:
-                    CurrentViewModel = new RoutePlanViewModel();
+                    CurrentViewModel = new CustomersViewModel();
                     break;
                 case 3:
-                    CurrentViewModel = new SettingViewModel();
+                    CurrentViewModel = new MenbersViewModel();
                     break;
                 case 4:
                     CurrentViewModel = new SettingViewModel();

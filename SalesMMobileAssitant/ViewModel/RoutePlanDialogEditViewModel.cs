@@ -64,6 +64,7 @@ namespace SalesMMobileAssitant.ViewModel
             DatePlan = routePlan.DatePlan;
             SelectedEmplID = routePlan.EmplID;
             SelectedCustID = routePlan.CustID.ToString();
+            IsCheckedVisit = routePlan.Visited;
 
             SelectionChangedEmployeeCommand = new RelayCommand<object>((p) => { return true; }, (p) => {
                 _ = GetListCustomerByEmplID(SelectedEmplID);
@@ -91,7 +92,7 @@ namespace SalesMMobileAssitant.ViewModel
         async private Task PutRoutePlan(RoutePlan item, string CompID, string EmplID, int CustID, DateTime DatePlan)
         {
             
-            if ( await RoutePlanEndPoint.Ins.Put(item, CompID, EmplID, CustID, DatePlan.Date.ToString("yyyy-MM-dd")))
+            if (await RoutePlanEndPoint.Ins.Put(item, CompID, EmplID, CustID, DatePlan.Date.ToString("yyyy-MM-dd")))
             {
                 IsValidating = true;
                 await Task.Delay(TimeSpan.FromSeconds(2));
@@ -101,12 +102,12 @@ namespace SalesMMobileAssitant.ViewModel
         }
         async private Task GetListEmployees()
         {
-            var result = await GeneralMethods.Ins.GetDataFromDB<Employee>("Employee/employees");
+            var result = await GeneralMethods.Ins.GetDataFromDB<Employee>("/api/Employee/employees");
             ListEmployee = new ObservableCollection<Employee>(result);
         }
         async private Task GetListCustomerByEmplID(string EmplID)
         {
-            var result = await GeneralMethods.Ins.GetDataFromDB<Customer>("Customer/customers");
+            var result = await GeneralMethods.Ins.GetDataFromDB<Customer>("/api/Customer/customers");
             List<Customer> customers = result.Where(p => p.EmplID.CompareTo(EmplID) == 0).ToList();
             ListCustomer = new ObservableCollection<Customer>(customers);
         }

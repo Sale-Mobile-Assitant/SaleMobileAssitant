@@ -18,6 +18,21 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -98,12 +113,19 @@
     <Compile Include="Controller\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controller\MessageBoxWindow.xaml.cs">
+      <DependentUpon>MessageBoxWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controller\WindowNewRoutePlan.xaml.cs">
       <DependentUpon>WindowNewRoutePlan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\WindownMemberOrderDetail.xaml.cs">
+      <DependentUpon>WindownMemberOrderDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controller\WindownOrderDetail.xaml.cs">
       <DependentUpon>WindownOrderDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EndPoint\AccountEndPoint.cs" />
     <Compile Include="EndPoint\CompanyEndPoint.cs" />
     <Compile Include="EndPoint\CustomerEndPoint.cs" />
     <Compile Include="EndPoint\DashBroadEndPoint.cs" />
@@ -119,15 +141,20 @@
     <Compile Include="EndPoint\SiteEndPoint.cs" />
     <Compile Include="Helper\APIHelper.cs" />
     <Compile Include="Helper\BoolToVisibilityConverter.cs" />
+    <Compile Include="Helper\CustomMaterialMessageBox.cs" />
     <Compile Include="Helper\FindVisualChildHelper.cs" />
+    <Compile Include="Helper\GeneralMethodEpicor.cs" />
     <Compile Include="Helper\GeneralMethods.cs" />
     <Compile Include="Helper\ItemMenu.cs" />
+    <Compile Include="Helper\MaterialMessageBox.cs" />
     <Compile Include="Helper\NotEmptyValidationRule.cs" />
     <Compile Include="Helper\ScrollAnimationBehavior.cs" />
     <Compile Include="Helper\ScrollViewFixer.cs" />
     <Compile Include="Helper\SubItem.cs" />
+    <Compile Include="Model\Account.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\CustomerService.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\EmployeeType.cs" />
     <Compile Include="Model\EpicorModel\EpicorCompany.cs" />
@@ -140,10 +167,13 @@
     <Compile Include="Model\EpicorModel\EpicorProductGroup.cs" />
     <Compile Include="Model\EpicorModel\EpicorProductInSite.cs" />
     <Compile Include="Model\EpicorModel\EpicorSite.cs" />
+    <Compile Include="Model\EpicorModel\OrderDetailLolModel.cs" />
+    <Compile Include="Model\EpicorOrder2.cs" />
     <Compile Include="Model\ItemPage.cs" />
     <Compile Include="Model\Month.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Model\OrderDetail.cs" />
+    <Compile Include="Model\StatusType.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\ProductGroup.cs" />
     <Compile Include="Model\ProductInSite.cs" />
@@ -151,6 +181,8 @@
     <Compile Include="Model\RoutePlanView.cs" />
     <Compile Include="Model\SalesOrderView.cs" />
     <Compile Include="Model\Site.cs" />
+    <Compile Include="Model\TopProduct.cs" />
+    <Compile Include="Model\TopSaleMan.cs" />
     <Compile Include="ResourceXAML\Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
@@ -184,12 +216,15 @@
     <Compile Include="ViewModel\AnalysisViewModel.cs" />
     <Compile Include="ViewModel\AnnotationValidationViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\CustomerAddDialogViewModel.cs" />
+    <Compile Include="ViewModel\CustomerEditDialogViewModel.cs" />
     <Compile Include="ViewModel\CustomersViewModel.cs" />
     <Compile Include="ViewModel\DashBoardViewModel.cs" />
     <Compile Include="ViewModel\GridViewColumnVisibilityManager.cs" />
     <Compile Include="ViewModel\IndexConverter.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\MemberDetailViewModel.cs" />
     <Compile Include="ViewModel\MenbersViewModel.cs" />
     <Compile Include="ViewModel\NewRoutePlanViewModel.cs" />
     <Compile Include="ViewModel\NotifyErrorInfoViewModel.cs" />
@@ -201,11 +236,20 @@
     <Compile Include="ViewModel\SaleOrderViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="ViewModel\StarSizeHelper.cs" />
+    <Compile Include="ViewModel\SynsToEpicorOrderViewModel.cs" />
     <Page Include="Controller\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controller\MessageBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controller\WindowNewRoutePlan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controller\WindownMemberOrderDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -328,6 +372,18 @@
     <Resource Include="Assets\platinum.png" />
     <Resource Include="Assets\provisional.png" />
     <Resource Include="Assets\silver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

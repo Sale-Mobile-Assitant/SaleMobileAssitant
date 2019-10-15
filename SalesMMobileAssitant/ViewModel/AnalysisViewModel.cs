@@ -29,7 +29,7 @@ namespace SalesMMobileAssitant.ViewModel
                 new LineSeries
                 {
                     Title = "2019",
-                    Values = new ChartValues<double> { 1, 7, 3, 4 }
+                    Values = new ChartValues<double> { 1, 7, 3, 4,15 }
                 }
             };
 
@@ -40,12 +40,12 @@ namespace SalesMMobileAssitant.ViewModel
             SalesValueCollection.Add(new LineSeries
             {
                 Title = "2020",
-                Values = new ChartValues<double> { 5, 3, 2, 4, 10 },
+                Values = new ChartValues<double> { 5, 3, 2, 4 },
                 LineSmoothness = 0 //straight lines, 1 really smooth lines
             });
 
             //modifying any series values will also animate and update the chart
-            SalesValueCollection[1].Values.Add(5d);
+            SalesValueCollection[2].Values.Add(45d);
 
 
             // --------------

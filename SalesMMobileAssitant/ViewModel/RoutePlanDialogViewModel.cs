@@ -21,8 +21,8 @@ namespace SalesMMobileAssitant.ViewModel
         private DateTime _DatePlan;
         public DateTime DatePlan { get => _DatePlan; set { _DatePlan = value; OnPropertyChanged(); } }
 
-        private int _Prioritize;
-        public int Prioritize { get => _Prioritize; set { _Prioritize = value; OnPropertyChanged(); } }
+        private string _Prioritize;
+        public string Prioritize { get => _Prioritize; set { _Prioritize = value; OnPropertyChanged(); } }
 
         private string _EmplID;
         public string EmplID { get => _EmplID; set { _EmplID = value; OnPropertyChanged(); } }
@@ -64,7 +64,9 @@ namespace SalesMMobileAssitant.ViewModel
             });
 
             SaveCommand = new RelayCommand<object>((p)=> {
-                if (string.IsNullOrEmpty(CompID) || string.IsNullOrWhiteSpace(Prioritize.ToString()) || string.IsNullOrEmpty(SelectedEmplID) || string.IsNullOrEmpty(SelectedCustID))
+                if (string.IsNullOrEmpty(CompID) || string.IsNullOrWhiteSpace(Prioritize) || string.IsNullOrEmpty(SelectedEmplID) || string.IsNullOrEmpty(SelectedCustID))
+                    return false;
+                if (int.TryParse(Prioritize,out int result) == false)
                     return false;
                 return true;
             },(p)=> {
@@ -84,28 +86,28 @@ namespace SalesMMobileAssitant.ViewModel
         }
         async private Task AddRoutePlan(RoutePlan routePlan)
         {
-            if (await GeneralMethods.Ins.PostDataToDB<RoutePlan>("RoutePlan", routePlan) == true)
+            if (await GeneralMethods.Ins.PostDataToDB<RoutePlan>("/api/RoutePlan", routePlan) == true)
             {
                 IsValidating = true;
                 await Task.Delay(TimeSpan.FromSeconds(2));
-                
-                MessageBox.Show("Thêm thành công");
+
+                MaterialMessageBox.Show("Success");
                 Close?.Invoke(this, EventArgs.Empty);
             }
             else
             {
-                MessageBox.Show("Có lỗi x");
+                MessageBox.Show("An error occurred. Please check again");
             }
             
         }
         async private Task GetListEmployees()
         {
-            var result = await GeneralMethods.Ins.GetDataFromDB<Employee>("Employee/employees");
+            var result = await GeneralMethods.Ins.GetDataFromDB<Employee>("/api/Employee/employees");
             ListEmployee = new ObservableCollection<Employee>(result);
         }
         async private Task GetListCustomerByEmplID(string EmplID)
         {
-            var result = await GeneralMethods.Ins.GetDataFromEpicor<Customer>("Customer/customers");
+            var result = await GeneralMethods.Ins.GetDataFromEpicor<Customer>("/api/Customer/customers");
             List<Customer> customers = result.Where(p => p.EmplID.CompareTo(EmplID) == 0).ToList();
             ListCustomer = new ObservableCollection<Customer>(customers);
         }

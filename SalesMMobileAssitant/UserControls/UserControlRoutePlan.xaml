@@ -55,12 +55,7 @@
 
 
                             <DatePicker Grid.Row="1" DisplayDateStart="{x:Static sys:DateTime.Now}" HorizontalAlignment="Right" Grid.Column="2" Margin="0 10" SelectedDate="{Binding DatePlan, TargetNullValue={x:Static system:DateTime.Now}}" Width="150" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                            <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Width="150" Text="{Binding Prioritize}" Margin="0 10" materialDesign:HintAssist.Hint="Prioritize" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-                                <TextBox.DataContext>
-                                    <viewModel:NotifyErrorInfoViewModel/>
-                                </TextBox.DataContext>
-                            </TextBox>
-
+                            <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Width="150" Text="{Binding Prioritize}" Margin="0 10" materialDesign:HintAssist.Hint="Prioritize" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
                             <ComboBox x:Name="cbxEmployee" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding ListEmployee}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="230" SelectedValue="{Binding SelectedEmplID}" SelectedValuePath="EmplID" Margin="0 10" materialDesign:HintAssist.Hint="Employess" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                                 <i:Interaction.Triggers>
@@ -199,7 +194,7 @@
                             VerticalScrollBarVisibility="Auto"
                             materialDesign:HintAssist.Hint="Note"/>
                             </StackPanel>
-                            <CheckBox Grid.Row="7" Grid.Column="0" Content="Visited" IsChecked="{Binding IsCheckedVisit}"/>
+                            <CheckBox Grid.Row="7" IsEnabled="False" Grid.Column="0" Content="Visited" IsChecked="{Binding IsCheckedVisit}"/>
                             <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="1" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="10">
                                 <Button Content="Cancel" Margin="10 0" Width="100" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
                                 <Button Content="Save" IsDefault="True" Width="100"
@@ -234,7 +229,7 @@
                 </DataTemplate.Resources>
                 <ContentControl Content="{Binding}" />
             </DataTemplate>
-            
+
         </materialDesign:DialogHost.DialogContentTemplate>
         <Grid>
             <StackPanel Orientation="Vertical">
@@ -363,16 +358,4 @@
             </StackPanel>
         </Grid>
     </materialDesign:DialogHost>
-
-
-
-
-    
-    
-    
-   
-
-
-
-
 </UserControl>

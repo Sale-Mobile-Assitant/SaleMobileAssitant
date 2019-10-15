@@ -160,31 +160,27 @@ namespace SalesMMobileAssitant.ViewModel
 
         private void DeleteRoutePlan(RoutePlan items)
         {
-            RoutePlanResources.Remove(items);
-            routePlans.Remove(items);
-           
             _ = Delete(items);
         }
 
         async private Task Delete(RoutePlan items)
         {
-            RoutePlanResources.Remove(items);
-            routePlans.Remove(items);
-
             if (await RoutePlanEndPoint.Ins.Delete(items.CompID, items.EmplID, items.CustID, items.DatePlan.ToString("yyyy-MM-dd")))
             {
+                MaterialMessageBox.Show("Delete Success");
+                RoutePlanResources.Remove(items);
+                routePlans.Remove(items);
                 totalRecord = routePlans.Count;
                 TotalPages();
-                MessageBox.Show("Đã xóa");
-                
             }
             else
-                MessageBox.Show("Gặp lỗi");
+                MaterialMessageBox.Show("Delete Failed");
+
         }
        
         async private Task LoadData(int month,int year)
         {
-            var result = await GeneralMethods.Ins.GetDataFromDB<RoutePlan>("RoutePlan/routeplans");
+            var result = await GeneralMethods.Ins.GetDataFromDB<RoutePlan>("/api/RoutePlan/routeplans");
             var resultByMonth = result.Where(p => p.DatePlan.Month.CompareTo(month) == 0 & p.DatePlan.Year.CompareTo(year) == 0);
             routePlans = new ObservableCollection<RoutePlan>(resultByMonth);
             totalRecord = routePlans.Count;
@@ -476,7 +472,6 @@ namespace SalesMMobileAssitant.ViewModel
         private async void OnShowDialog(object lol)
         {
             var viewModel = new RoutePlanDialogViewModel();
-            //object dialogResult = await DialogHost.Show(viewModel, DialogIdentifier);
 
             await DialogHost.Show(viewModel, (object sender, DialogOpenedEventArgs e) =>
             {
@@ -486,13 +481,16 @@ namespace SalesMMobileAssitant.ViewModel
                     e.Session.Close();
                 }
                 viewModel.Close += OnClose;
+                
             });
+            _ = LoadData(DateTime.Now.Month, DateTime.Now.Year);
+
+            RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
         }
 
         private async void OnShowEditDialog(RoutePlan routePlan)
         {
             var viewModel = new RoutePlanDialogEditViewModel(routePlan);
-            //await MaterialDesignThemes.Wpf.DialogHost.Show(viewModel, DialogIdentifier);
 
             await DialogHost.Show(viewModel, (object sender, DialogOpenedEventArgs e) =>
             {
@@ -502,7 +500,10 @@ namespace SalesMMobileAssitant.ViewModel
                     e.Session.Close();
                 }
                 viewModel.Close += OnClose;
+               
             });
+            _ = LoadData(Convert.ToInt32(SelectedMonth), Convert.ToInt32(SelectedYear));
+            RoutePlanResources = new ObservableCollection<RoutePlan>(LoadRecord(pageNumber, numberRecord));
         }
     }
 }

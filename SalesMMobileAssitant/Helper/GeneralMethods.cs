@@ -40,17 +40,60 @@ namespace SalesMMobileAssitant.Helper
 
         }
 
+        public bool TestConection(string url)
+        {
+            try
+            {
+                using (HttpResponseMessage response = APIHelper.ApiClient.GetAsync(url).Result)
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+           
+        }
+
         public async Task<List<T>> GetDataFromDB<T>(string urlDB)
         {
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.URIAPI))
+            {
+                string url = Properties.Settings.Default.URIAPI + urlDB;
 
-            string url = "http://webapi.local/api/" + urlDB;
+                using (HttpResponseMessage response = APIHelper.ApiClient.GetAsync(url).Result)
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = await response.Content.ReadAsAsync<List<T>>();
 
-            using (HttpResponseMessage response = APIHelper.ApiClient.GetAsync(url).Result)
+                        return result;
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
+                }
+            }
+            return null;
+        }
+        public async Task<string> GetDataFromEpicor2(string urlEpicor)
+        {
+            string url = "http://webapi.local/api/" + urlEpicor;
+
+            using (HttpResponseMessage response =  APIHelper.ApiClient.GetAsync(url).Result)
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<List<T>>();
-
+                    var result = await response.Content.ReadAsStringAsync();
                     return result;
                 }
                 else
@@ -62,47 +105,119 @@ namespace SalesMMobileAssitant.Helper
 
         public async Task<List<T>> GetDataFromEpicor<T>(string urlEpicor)
         {
-            string url = "http://webapi.local/api/" + urlEpicor;
 
-            using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.URIAPI))
             {
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = response.Content.ReadAsAsync<List<T>>().Result;
+                string url = Properties.Settings.Default.URIAPI + urlEpicor;
 
-                    return result;
-                }
-                else
+                using (HttpResponseMessage response = await APIHelper.ApiClient.GetAsync(url))
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = response.Content.ReadAsAsync<List<T>>().Result;
+
+                        return result;
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
                 }
             }
+            return null;
+        }
+        public async Task<string> PostDataToEpicor2<T>(string urlDB, T value)
+        {
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.URIAPI))
+            {
+                string url = Properties.Settings.Default.URIAPI + urlDB;
+
+                var json = JsonConvert.SerializeObject(value);
+
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, url)
+                {
+                    Content = content
+                };
+
+                using (HttpResponseMessage response = await APIHelper.ApiClient.SendAsync(message))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        return result;
+                    }
+                    else
+                    {
+                        return response.StatusCode.ToString();
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        public async Task<bool> PostDataToEpicor<T>(string urlDB, T value)
+        {
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.URIAPI))
+            {
+                string url = Properties.Settings.Default.URIAPI + urlDB;
+
+                var json = JsonConvert.SerializeObject(value);
+
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, url)
+                {
+                    Content = content
+                };
+
+                using (HttpResponseMessage response = await APIHelper.ApiClient.SendAsync(message))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false; 
         }
         public async Task<bool> PostDataToDB<T>(string urlDB,T value)
         {
-            string url = "http://webapi.local/api/" + urlDB;
-
-            var json = JsonConvert.SerializeObject(value);
-
-            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, url)
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.URIAPI))
             {
-                Content = content
-            };
+                string url = Properties.Settings.Default.URIAPI + urlDB;
 
-            using (HttpResponseMessage response = await APIHelper.ApiClient.SendAsync(message))
-            {
-                if (response.IsSuccessStatusCode)
+                var json = JsonConvert.SerializeObject(value);
+
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, url)
                 {
-                    return true;
-                }
-                else
+                    Content = content
+                };
+
+                using (HttpResponseMessage response = await APIHelper.ApiClient.SendAsync(message))
                 {
-                    return false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
+            return false;
+
         }
      
+
     }
 }

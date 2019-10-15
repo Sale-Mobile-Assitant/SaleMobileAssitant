@@ -137,7 +137,7 @@
                         <ListViewItem Height="60">
                             <StackPanel Orientation="Horizontal" Margin="10 0">
                                 <materialDesign:PackIcon Kind="User" Width="15" Height="15" VerticalAlignment="Center" Margin="5"/>
-                                <TextBlock Text="Menbers" Margin="10" FontSize="15" VerticalAlignment="Center"/>
+                                <TextBlock Text="Members" Margin="10" FontSize="15" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ListViewItem>
                         <!--<ListViewItem Height="60">
