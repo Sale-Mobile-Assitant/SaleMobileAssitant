@@ -107,7 +107,7 @@ namespace SalesMMobileAssitant.ViewModel
                     if (int.TryParse(responese, out int lol) == false)
                     {
                         mes += string.Format("Order ({0}) success - ", item.MyOrderID);
-                        foreach (var _orderDetail in item.OrderDetail)
+                        foreach (var _orderDetail in item.OrderDetail.OrderBy(p=>p.OrderLine))
                         {
                             EpicorOrderDetail orderDetail = new EpicorOrderDetail()
                             {

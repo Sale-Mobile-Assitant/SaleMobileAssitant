@@ -57,7 +57,7 @@ namespace SalesMMobileAssitant.ViewModel
         public ICommand LoadedCommand { get; set; }
         public OrderDetailViewModel(Order orders)
         {
-            OrderDetilResource = new ObservableCollection<OrderDetail>();
+            //OrderDetilResource = new ObservableCollection<OrderDetail>();
             LoadedCommand = new RelayCommand<object>((p)=> { return true; },(p)=> {
                 LoadData(orders);
             });
@@ -77,10 +77,9 @@ namespace SalesMMobileAssitant.ViewModel
             RequestDate = Orders.RequestDate;
             OrderStatus = Orders.OrderStatus;
 
-
+            List<OrderDetail> list = new List<OrderDetail>();
             foreach (var item in Orders.OrderDetail)
             {
-                
                 OrderDetail orderDetail = new OrderDetail()
                 {
                     SiteID = item.SiteID,
@@ -92,8 +91,12 @@ namespace SalesMMobileAssitant.ViewModel
                     OrderNum = item.OrderNum,
                     
                 };
-                OrderDetilResource.Add(orderDetail);
+                list.Add(orderDetail);
             }
+            List<OrderDetail> listt = list.OrderBy(o => o.OrderLine).ToList();
+            OrderDetilResource = new ObservableCollection<OrderDetail>(listt);
+            
+
         }
     }
 }

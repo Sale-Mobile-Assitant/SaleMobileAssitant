@@ -119,6 +119,7 @@ namespace SalesMMobileAssitant.ViewModel
         
 
         private int countChecked = 0;
+
         public string SelectedPageSize { get; set; }
         #endregion
 
@@ -304,7 +305,10 @@ namespace SalesMMobileAssitant.ViewModel
                 _ = LoadData(Convert.ToInt32(SelectedMonth), Convert.ToInt32(SelectedYear), SelectedOrderStatus);
                 SalesOrdersResources = new ObservableCollection<ServiceOrder>(LoadRecord(pageNumber, numberRecord));
                 EmployeeCollection = CollectionViewSource.GetDefaultView(SalesOrdersResources);
+                SynctoEpicor = "Sync to Epicor";
+                countChecked = 0;
             }
+
         }
 
        
