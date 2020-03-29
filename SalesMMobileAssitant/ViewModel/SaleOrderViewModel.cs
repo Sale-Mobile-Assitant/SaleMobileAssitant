@@ -391,46 +391,6 @@ namespace SalesMMobileAssitant.ViewModel
             totalRecord = routePlans.Count;
         }
 
-        async private Task LoadData3()
-        {
-            SalesOrdersResources = new ObservableCollection<ServiceOrder>();
-
-            var result = await GeneralMethods.Ins.GetDataFromDB<ServiceOrder>("/api/Order/orders");
-
-            foreach (var item in result)
-            {
-                ServiceOrder order = new ServiceOrder()
-                {
-                    CompID = item.CompID,
-                    MyOrderID = item.MyOrderID,
-                    OrdeID = item.OrdeID,
-                    CustID = item.CustID,
-                    EmplID = item.EmplID,
-                    OrderDate = item.OrderDate,
-                    NeedByDate = item.NeedByDate,
-                    RequestDate = item.RequestDate,
-                    OrderDetail = item.OrderDetail,
-                    IsSelected = true
-                };
-
-                switch (item.OrderStatus)
-                {
-                    case "1":
-                        order.OrderStatus = "Pending";
-                        break;
-                    case "2":
-                        order.OrderStatus = "Verifying";
-                        break;
-                    case "3":
-                        order.OrderStatus = "Completed";
-                        break;
-                    default:
-                        break;
-                }
-                SalesOrdersResources.Add(order);
-            }
-        }
-
         private List<ServiceOrder> LoadRecord(int page, int recordNum)
         {
             List<ServiceOrder> result = new List<ServiceOrder>();
@@ -458,6 +418,11 @@ namespace SalesMMobileAssitant.ViewModel
 
         private void ChangePage()
         {
+            // ở đây có lỗi rất nạng. không fix đc 
+            if (SelectedPageNumber == null)
+            {
+                return;
+            }
             // phai3
             NextCommand = new RelayCommand<object>((p) => {
                 if (Convert.ToInt32(SelectedPageNumber) == ItemPageNumber.Count - 1)

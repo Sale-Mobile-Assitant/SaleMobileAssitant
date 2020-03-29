@@ -22,9 +22,19 @@ namespace SalesMMobileAssitant.Helper
             if (!string.IsNullOrEmpty(Properties.Settings.Default.URIAPI))
             {
                 string url = Properties.Settings.Default.URIAPI;
-                ApiClient.BaseAddress = new Uri(url);
+                try
+                {
+                    ApiClient.BaseAddress = new Uri(url);
+
+                }
+                catch (Exception ex)
+                {
+                    Properties.Settings.Default.URIAPI = null;
+                    Properties.Settings.Default.Save();
+                    MaterialMessageBox.Show("Error");
+                }
             }
-           
+
             ApiClient.DefaultRequestHeaders.Accept.Clear();
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
